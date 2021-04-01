@@ -15,6 +15,7 @@ LATEST_GIT_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
 LATEST_SVN_TAG=${LATEST_GIT_TAG:1}
 
 mkdir -p $SVN_REPO_LOCAL_PATH && cd $SVN_REPO_LOCAL_PATH
+sudo apt-get update
 sudo apt-get install subversion
 
 # Check if the latest SVN tag exists already
