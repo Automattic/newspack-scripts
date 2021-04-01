@@ -27,6 +27,9 @@ if [ $error == 0 ]; then
   exit 0
 fi
 
+# Wait a moment to avoid a 429 by WPORG's server.
+sleep 3
+
 svn checkout -q "$SVN_PLUGINS_URL/$CIRCLE_PROJECT_REPONAME" .
 rm -rf trunk
 
