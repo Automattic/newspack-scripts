@@ -3,12 +3,13 @@
 # Release the latest version on wordpress.org plugin repository.
 # To be run as part of CI workflow.
 # Assumptions:
-# - repository name matches the wordpress.org plugin name,
+# - repository name matches the wordpress.org plugin name or WP_ORG_PLUGIN_NAME is set,
 # - there is a `release` directory with the folder containing the files and named as the plugin in it
 # Partially adapted from https://carlalexander.ca/continuous-deployment-wordpress-directory-circleci/
 
 SVN_PLUGINS_URL="https://plugins.svn.wordpress.org"
 SVN_REPO_LOCAL_PATH="release/svn"
+WP_ORG_PLUGIN_NAME="${WP_ORG_PLUGIN_NAME:=$CIRCLE_PROJECT_REPONAME}"
 
 LATEST_GIT_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
 # Remove the "v" at the beginning of the git tag
@@ -19,7 +20,7 @@ sudo apt-get update
 sudo apt-get install subversion
 
 # Check if the latest SVN tag exists already
-TAG=$(svn ls "$SVN_PLUGINS_URL/$CIRCLE_PROJECT_REPONAME/tags/$LATEST_SVN_TAG")
+TAG=$(svn ls "$SVN_PLUGINS_URL/$WP_ORG_PLUGIN_NAME/tags/$LATEST_SVN_TAG")
 error=$?
 if [ $error == 0 ]; then
   # Tag exists, don't deploy
@@ -30,7 +31,7 @@ fi
 # Wait a moment to avoid a 429 by WPORG's server.
 sleep 3
 
-svn checkout -q "$SVN_PLUGINS_URL/$CIRCLE_PROJECT_REPONAME" .
+svn checkout -q "$SVN_PLUGINS_URL/$WP_ORG_PLUGIN_NAME" .
 rm -rf trunk
 
 cp -r "../$CIRCLE_PROJECT_REPONAME" ./trunk
