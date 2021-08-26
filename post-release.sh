@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+git config user.name "$GIT_COMMITTER_NAME"
+git config user.email "$GITHUB_COMMITER_EMAIL"
+
 # Reset the tip of alpha branch to the release branch.
 # The alpha brach is single-serving, just for alpha releases. After a release,
 # we don't care about any alpha changes.
