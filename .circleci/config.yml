@@ -1,0 +1,28 @@
+version: 2.1
+
+commands:
+  checkout_with_workspace:
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout_with_workspace
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+
+workflows:
+  version: 2
+  all:
+    jobs:
+      - build
