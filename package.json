@@ -8,9 +8,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.16.0",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^12.1.2",
     "babel-jest": "^27.4.2",
+    "babel-loader": "^8.2.3",
     "cross-spawn": "^7.0.3",
     "jest": "^27.4.3",
     "jest-environment-jsdom": "^27.4.3"
