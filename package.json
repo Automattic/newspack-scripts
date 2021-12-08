@@ -1,6 +1,6 @@
 {
   "name": "newspack-scripts",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "",
   "bin": {
     "newspack-scripts": "./bin/newspack-scripts.js"
@@ -14,5 +14,15 @@
     "cross-spawn": "^7.0.3",
     "jest": "^27.4.3",
     "jest-environment-jsdom": "^27.4.3"
+  },
+  "scripts": {
+    "semantic-release": "semantic-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Automattic/newspack-scripts.git"
+  },
+  "devDependencies": {
+    "semantic-release": "^18.0.1"
   }
 }

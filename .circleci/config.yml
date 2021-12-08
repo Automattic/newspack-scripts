@@ -1,28 +1,13 @@
-version: 2.1
-
-commands:
-  checkout_with_workspace:
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/
-
+version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:16
+      - image: 'circleci/node:latest'
     steps:
-      - checkout_with_workspace
+      - checkout
       - run:
-          name: Install dependencies
-          command: npm ci
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project
-
-workflows:
-  version: 2
-  all:
-    jobs:
-      - build
+          name: install
+          command: npm install
+      - run:
+          name: release
+          command: npm run semantic-release || true
