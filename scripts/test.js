@@ -19,6 +19,7 @@ const JEST_CONFIG = {
   transform: {
     "^.+\\.js?$": "babel-jest"
   },
+  transformIgnorePatterns: ["/node_modules/(?!newspack-scripts/)"],
   moduleNameMapper: {
     "\\.(scss|css)$": "babel-jest"
   },
