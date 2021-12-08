@@ -6,12 +6,12 @@ process.env.NODE_ENV = "test";
 const jest = require("jest");
 const path = require("path");
 
-const utils = require("./utils");
+const modules = require("./utils/modules");
 
 let argv = process.argv.slice(2);
 
 const JEST_CONFIG = {
-  rootDir: utils.rootDirectory,
+  rootDir: modules.rootDirectory,
   setupFilesAfterEnv: [path.resolve(__dirname, "utils/jestSetup.js")],
   testMatch: ["<rootDir>/**/*test.js?(x)"],
   transform: {
