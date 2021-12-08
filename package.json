@@ -8,12 +8,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@automattic/calypso-build": "^10.0.0",
+    "@babel/preset-env": "^7.16.4",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^12.1.2",
     "babel-jest": "^27.4.2",
     "cross-spawn": "^7.0.3",
     "jest": "^27.4.3",
-    "jest-environment-jsdom": "^27.4.3"
+    "jest-environment-jsdom": "^27.4.3",
+    "webpack": "^5.65.0"
   },
   "scripts": {
     "semantic-release": "semantic-release"

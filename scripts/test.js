@@ -4,24 +4,22 @@ process.env.BABEL_ENV = "test";
 process.env.NODE_ENV = "test";
 
 const jest = require("jest");
-const fs = require("fs");
 const path = require("path");
-const execSync = require("child_process").execSync;
+
+const utils = require("./utils");
 
 let argv = process.argv.slice(2);
 
-const appDirectory = fs.realpathSync(process.cwd());
-
 const JEST_CONFIG = {
-  rootDir: path.resolve(appDirectory),
-  setupFilesAfterEnv: [path.resolve(__dirname, "utils/jest-setup.js")],
+  rootDir: utils.rootDirectory,
+  setupFilesAfterEnv: [path.resolve(__dirname, "utils/jestSetup.js")],
   testMatch: ["<rootDir>/**/*test.js?(x)"],
   transform: {
-    "^.+\\.js?$": "babel-jest"
+    "^.+\\.js?$": path.resolve(__dirname, "utils/babelJestTransformer.js")
   },
   transformIgnorePatterns: ["/node_modules/(?!newspack-scripts/)"],
   moduleNameMapper: {
-    "\\.(scss|css)$": "babel-jest"
+    "\\.(scss|css)$": path.resolve(__dirname, "utils/babelJestTransformer.js")
   },
   testEnvironment: "jsdom",
   collectCoverageFrom: [
