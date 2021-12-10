@@ -10,3 +10,11 @@ Will run `jest` tests. Useful flags:
 
 - `--watch` to run in file watch mode,
 - `--coverage` to collect test coverage
+
+### build
+
+Will run `calypso-build`, creating optimised production builds.
+
+### start
+
+Will run `calypso-build` in watch mode. 
