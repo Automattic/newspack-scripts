@@ -75,3 +75,5 @@ Install `stylelint` via npm and reference this package's config file when runnin
 ```shell
 stylelint '**/*.scss' --syntax scss --config=./node_modules/newspack-scripts/config/stylelint.config.js
 ```
+
+_Note: for it to work properly, use `npm` at version `>=8.3.0`._
