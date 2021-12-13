@@ -33,8 +33,10 @@
     "stylelint-prettier": "^1.2.0",
     "webpack": "^5.65.0"
   },
-  "overrides":{
-    "prettier": "npm:wp-prettier@2.2.1-beta-1"
+  "overrides": {
+    "stylelint-prettier": {
+      "prettier": "npm:wp-prettier@2.2.1-beta-1"
+    }
   },
   "scripts": {
     "semantic-release": "semantic-release"
