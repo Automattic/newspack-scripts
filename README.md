@@ -76,4 +76,4 @@ Install `stylelint` via npm and reference this package's config file when runnin
 stylelint '**/*.scss' --syntax scss --config=./node_modules/newspack-scripts/config/stylelint.config.js
 ```
 
-_Note: for it to work properly, use `npm` at version `>=8.3.0`._
+_Note: Due to issue with dependency resolving, you might end up a different version of `prettier` in project's `node_modules` and `node_modules/newspack-scripts/node_modules`. See https://github.com/Automattic/newspack-scripts/issues/1 for more information._
