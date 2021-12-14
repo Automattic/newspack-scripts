@@ -23,6 +23,10 @@ Will run `calypso-build` in watch mode.
 
 Uses [`commitizen`](https://www.npmjs.com/package/commitizen) to create a structured commit message.
 
+### commitlint
+
+Lints to commit message, to be used in a git `commit-msg` hook.
+
 ## Available configs
 
 This package exposes a couple of configuration files.
