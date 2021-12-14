@@ -19,6 +19,10 @@ Will run `calypso-build`, creating optimised production builds.
 
 Will run `calypso-build` in watch mode.
 
+### commit
+
+Uses [`commitizen`](https://www.npmjs.com/package/commitizen) to create a structured commit message.
+
 ## Available configs
 
 This package exposes a couple of configuration files.
