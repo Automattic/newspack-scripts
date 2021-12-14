@@ -4,7 +4,11 @@ const spawn = require("cross-spawn");
 
 const [scriptName, ...nodeArgs] = process.argv.slice(2);
 
-if (["test", "build", "start", "commit", "commitlint"].includes(scriptName)) {
+if (
+  ["test", "build", "start", "commit", "commitlint", "release"].includes(
+    scriptName
+  )
+) {
   const result = spawn.sync(
     process.execPath,
     [require.resolve("../scripts/" + scriptName), ...nodeArgs],
