@@ -5,15 +5,13 @@ const path = require("path");
 
 const semanticRelease = require("semantic-release");
 
-const PROJECT_NAME = path.basename(process.cwd());
-
 const { files, ...semanticReleaseArgs } = require("yargs/yargs")(
   process.argv.slice(2)
 ).parse();
 
 const filesList = files.split(",");
 
-console.log(`Releasing ${PROJECT_NAME}…`);
+console.log(`Releasing ${process.env.CIRCLE_PROJECT_REPONAME}…`);
 
 const config = {
   dryRun: semanticReleaseArgs.dryRun,
@@ -68,8 +66,8 @@ const config = {
       {
         assets: [
           {
-            path: `./release/${PROJECT_NAME}.zip`,
-            label: `${PROJECT_NAME}.zip`,
+            path: `./release/${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
+            label: `${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
           },
         ],
       },
