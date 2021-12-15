@@ -49,6 +49,7 @@
     "url": "https://github.com/Automattic/newspack-scripts.git"
   },
   "devDependencies": {
+    "@rushstack/eslint-patch": "^1.1.0",
     "yargs": "^17.3.0"
   }
 }

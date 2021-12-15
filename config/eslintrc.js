@@ -1,3 +1,7 @@
+// Technically not required, but issues were encountered with module resolution
+// done by an editor plugin (prettier-atom) when ran on a codebase using newspack-scripts.
+require("@rushstack/eslint-patch/modern-module-resolution");
+
 module.exports = {
   extends: [
     "plugin:@wordpress/eslint-plugin/recommended",
