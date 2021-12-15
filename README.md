@@ -27,6 +27,10 @@ Uses [`commitizen`](https://www.npmjs.com/package/commitizen) to create a struct
 
 Lints to commit message, to be used in a git `commit-msg` hook.
 
+### release
+
+Will run [`semantic-release`](semantic-release.gitbook.io/) based on a very opinionated configuration.
+
 ## Available configs
 
 This package exposes a couple of configuration files.
