@@ -17,7 +17,7 @@ Will run `jest` tests. Useful flags:
 
 Will run `calypso-build`, creating optimised production builds.
 
-### start
+### watch
 
 Will run `calypso-build` in watch mode.
 
