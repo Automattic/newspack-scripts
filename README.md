@@ -2,6 +2,8 @@
 
 Scripts for Newspack, heavily inspired by [`react-scripts`](https://github.com/facebook/create-react-app/blob/main/packages/react-scripts).
 
+---
+
 ## Available scripts
 
 ### test
@@ -30,6 +32,8 @@ Lints to commit message, to be used in a git `commit-msg` hook.
 ### release
 
 Will run [`semantic-release`](semantic-release.gitbook.io/) based on a very opinionated configuration.
+
+---
 
 ## Available configs
 
@@ -89,3 +93,11 @@ stylelint '**/*.scss' --syntax scss --config=./node_modules/newspack-scripts/con
 ```
 
 _Note: Due to issue with dependency resolving, you might end up a different version of `prettier` in project's `node_modules` and `node_modules/newspack-scripts/node_modules`. See https://github.com/Automattic/newspack-scripts/issues/1 for more information._
+
+---
+
+## Misc
+
+### `@wordpress/*` packages
+
+This project list [`@wordpress/*` packages](https://github.com/WordPress/gutenberg/tree/trunk/packages) as dependencies in order to provide them to consumers. In a project using `calypso-build` (e.g. a consumer of `newspack-scripts`), the `@wordpress/*` packages are sourced from WP Core, not `node_modules`. The packages should be included in `node_modules`, though, to be available in other environments – notably when running tests. See [Dependency Extraction Webpack Plugin](https://www.npmjs.com/package/@wordpress/dependency-extraction-webpack-plugin) for more information.
