@@ -1,3 +1,5 @@
+const path = require("path");
+
 // Assume `@wordpress/*` packages are available. This is because `calypso-build` is using
 // Dependency Extraction Webpack Plugin to use core WP packages instead of those from
 // node_modules. The packages should still be part of the project (so they are listed in this
@@ -25,7 +27,10 @@ module.exports = {
     camelcase: "off",
     // Disallow importing or requiring packages that are not listed in package.json
     // This prevents us from depending on transitive dependencies, which could break in unexpected ways.
-    "import/no-extraneous-dependencies": ["error", { packageDir: "." }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      { packageDir: [".", path.resolve(__dirname, "../")] },
+    ],
     "import/no-unresolved": ["error", { ignore: GLOBALLY_AVAILABLE_PACKAGES }],
     // There's a conflict with prettier here:
     "react/jsx-curly-spacing": "off",
