@@ -5,7 +5,7 @@ const spawn = require("cross-spawn");
 const [scriptName, ...nodeArgs] = process.argv.slice(2);
 
 if (
-  ["test", "build", "start", "commit", "commitlint", "release"].includes(
+  ["test", "build", "watch", "commit", "commitlint", "release"].includes(
     scriptName
   )
 ) {
