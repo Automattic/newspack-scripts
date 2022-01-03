@@ -19,10 +19,17 @@ const config = {
   debug: semanticReleaseArgs.debug,
 
   branches: [
+    // `release` branch is published on the main distribution channel (a new version on GH).
     "release",
+    // `alpha` branch – for regular pre-releases.
     {
       name: "alpha",
       prerelease: "alpha",
+    },
+    // `hotfix/*` branches – for releases outside of the release schedule.
+    {
+      name: "hotfix/*",
+      prerelease: "hotfix",
     },
   ],
   prepare: [
