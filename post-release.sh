@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# This script should be ran on CI after a new regular (not pre-release) version is released.
+
 git config user.name "$GIT_COMMITTER_NAME"
 git config user.email "$GITHUB_COMMITER_EMAIL"
 
