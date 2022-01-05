@@ -10,7 +10,7 @@ SECOND_TO_LAST_COMMIT_MSG=$(git log -n 1 --skip 1 --pretty=format:"%s")
 LATEST_VERSION_TAG=$(git describe --tags --abbrev=0)
 
 # If the merge was from alpha branch, alpha branch should be reset.
-if [[ $(echo $SECOND_TO_LAST_COMMIT_MSG | grep '^Merge pull request.*alpha') ]]; then
+if [[ $(echo $SECOND_TO_LAST_COMMIT_MSG | grep '^Merge .*alpha') ]]; then
   echo '[newspack-scripts] Release was created from the alpha branch. Alpha branch will now be reset.'
 
   # Reset the tip of alpha branch to the release branch.
