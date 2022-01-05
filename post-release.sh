@@ -11,7 +11,7 @@ SECOND_TO_LAST_COMMIT_MSG=$(git log -n 1 --skip 1 --pretty=format:"%s")
 
 LATEST_VERSION_TAG=$(git describe --tags --abbrev=0)
 
-# If the merge was from alpha branch, alpha branch should be reset.
+# If the merge was from alpha branch (the basic flow), alpha branch should be reset.
 if [[ $(echo $SECOND_TO_LAST_COMMIT_MSG | grep '^Merge .*alpha') ]]; then
   echo '[newspack-scripts] Release was created from the alpha branch. Alpha branch will now be reset.'
 
@@ -23,6 +23,12 @@ if [[ $(echo $SECOND_TO_LAST_COMMIT_MSG | grep '^Merge .*alpha') ]]; then
   git reset --hard release --
   # Force-push the alpha branch.
   git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git" --force
+else
+  echo '[newspack-scripts] Release was created from a different branch than the alpha branch (e.g. a hotfix branch).'
+  echo '[newspack-scripts] Alpha branch will now be updated with the lastest changes from release.'
+  git checkout alpha
+  git merge release --strategy-option=theirs --message="Merge release into alpha"
+  git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git"
 fi
 
 # Update master branch with latest changes from the release branch, so they are in sync.
