@@ -26,7 +26,8 @@ fi
 # Update master branch with latest changes from the release branch, so they are in sync.
 echo '[newspack-scripts] Merging the release branch into master'
 git checkout master
-git merge --squash release
+# Merge release branch into master branch, prefering the changes from release branch if conflicts arise.
+git merge --squash release --strategy-option=theirs
 git commit --message "chore(release): merge in release $LATEST_VERSION_TAG"
 # Push updated master upstream.
 git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git"
