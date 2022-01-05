@@ -35,6 +35,39 @@ Will run [`semantic-release`](semantic-release.gitbook.io/) based on a very opin
 
 ---
 
+## Semantic Release
+
+This package contains a configuration of [`semantic-release`](semantic-release.gitbook.io/), which can be used for automated software releases, published on Github. It's configured to work with the following repository branch setup:
+
+1. `master` – ongoing development
+1. `alpha` – release candidate
+1. `release` – the production-ready, released code
+
+The following assumes that CI will run:
+
+1. `npm run release` for `release`, `alpha`, and `hotfix/*` branches
+1. `post-release.sh` script on `release` branch, after the above command completes
+
+### Regular release flow
+
+1. Commit ongoing changes to `master` branch, using [structured commit messages](https://www.conventionalcommits.org/en/v1.0.0/)
+1. Merge `master` into `alpha` to create a release candidate (e.g. `1.2.0-alpha.1`)
+1. Merge `alpha` into `release` to create a release (e.g. `1.2.0`)
+1. `alpha` branch will be reset on top of `release`
+1. `master` branch will be updated with the changes from the `release` branch
+
+### Hotfix release flow
+
+1. Create a new `hotfix/*` branch off the `release` branch
+1. Push the branch to Github, so the CI can process it – _don't create a PR just yet!*_
+1. A new "hotfix" pre-release (e.g. `1.2.0-hotfix.1`) will be published
+1. Merge the hotfix branch into `release` to create a release
+1. `alpha` & `master` branches will be updated with the changes from the `release` branch
+
+\* `semantic-release` [will not release if the CI job was triggered by a PR](https://github.com/semantic-release/semantic-release/blob/971a5e0d16f1a32e117e9ce382a1618c8256d0d9/index.js#L48-L51)
+
+---
+
 ## Available configs
 
 This package exposes a couple of configuration files.
