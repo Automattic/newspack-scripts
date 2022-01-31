@@ -50,8 +50,15 @@ const config = {
     },
   ],
   plugins: [
-    "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/commit-analyzer", {
+        "releaseRules": [
+          { "type": "hotfix", "release": "patch" },
+          { "type": "style", "release": "patch" }
+        ]
+      }
+    ],
     [
       // Do not publish on npm.
       "@semantic-release/npm",
