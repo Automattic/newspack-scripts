@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "noEmit":true,
+    "rootDir": "src",
+    "composite": true,
+    "noEmitHelpers": true,
+    "skipLibCheck": true,
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "checkJs": false
+  },
+  "include": [
+    "src",
+    "src/**/*.json"
+  ]
+}
