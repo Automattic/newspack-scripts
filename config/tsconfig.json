@@ -2,7 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "noEmit":true,
-    "rootDir": "scripts",
     "composite": true,
     "noEmitHelpers": true,
     "skipLibCheck": true,
@@ -21,8 +20,5 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "checkJs": false
-  },
-  "include": [
-    "scripts"
-  ]
+  }
 }

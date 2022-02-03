@@ -8,6 +8,8 @@ const result = spawn.sync(`${process.cwd()}/node_modules/.bin/tsc`, [], {
   stdio: "inherit",
 });
 
-console.log(result);
+if (result.status === 0) {
+  console.log("All good!");
+}
 
 process.exit(result.status);
