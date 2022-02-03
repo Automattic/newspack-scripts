@@ -17,6 +17,7 @@
     "@semantic-release/git": "^10.0.1",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^12.1.2",
+    "@types/wordpress__data": "^4.6.10",
     "@wordpress/a11y": "^3.2.4",
     "@wordpress/api-fetch": "^5.2.6",
     "@wordpress/base-styles": "^4.0.4",
