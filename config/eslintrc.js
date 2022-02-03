@@ -15,10 +15,21 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   env: {
     browser: true,
     jest: true,
+  },
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
   },
   ignorePatterns: ["dist/", "node_modules/"],
   parser: "@babel/eslint-parser",
@@ -43,5 +54,8 @@ module.exports = {
     "jsdoc/require-param": "off",
     // Deprecated rules
     "jsx-a11y/no-onchange": "off",
+    // For TypeScript type declarations.
+    camelcase: "off",
+    "@typescript-eslint/no-empty-function": "off",
   },
 };

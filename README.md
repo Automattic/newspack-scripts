@@ -33,6 +33,20 @@ Lints to commit message, to be used in a git `commit-msg` hook.
 
 Will run [`semantic-release`](semantic-release.gitbook.io/) based on a very opinionated configuration.
 
+### typescript-check
+
+Will validate TypeScript code in the project. This requires a `tsconfig.json` file to be placed in the project root. Example:
+
+```json
+{
+  "extends": "newspack-scripts/config/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src"
+  },
+  "include": ["src"]
+}
+```
+
 ---
 
 ## Semantic Release

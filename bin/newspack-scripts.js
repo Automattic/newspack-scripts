@@ -5,9 +5,15 @@ const spawn = require("cross-spawn");
 const [scriptName, ...nodeArgs] = process.argv.slice(2);
 
 if (
-  ["test", "build", "watch", "commit", "commitlint", "release"].includes(
-    scriptName
-  )
+  [
+    "test",
+    "build",
+    "watch",
+    "commit",
+    "commitlint",
+    "release",
+    "typescript-check",
+  ].includes(scriptName)
 ) {
   const result = spawn.sync(
     process.execPath,
