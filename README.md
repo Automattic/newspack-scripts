@@ -86,7 +86,7 @@ The following assumes that CI will run:
 
 This package exposes a couple of configuration files.
 
-### webpack
+### Webpack
 
 The `webpack.config.js` file should use this package's config-extending function:
 
@@ -105,7 +105,7 @@ const webpackConfig = getBaseWebpackConfig(
 module.exports = webpackConfig;
 ```
 
-### babel
+### Babel
 
 A basic `babel.config.js`:
 
@@ -140,6 +140,10 @@ stylelint '**/*.scss' --syntax scss --config=./node_modules/newspack-scripts/con
 ```
 
 _Note: Due to issue with dependency resolving, you might end up a different version of `prettier` in project's `node_modules` and `node_modules/newspack-scripts/node_modules`. See https://github.com/Automattic/newspack-scripts/issues/1 for more information._
+
+### TypeScript
+
+See note about `typescript-check` script above.
 
 ---
 
