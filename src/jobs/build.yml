@@ -1,0 +1,21 @@
+description: >
+  Install node dependencies.
+
+executor: default
+
+steps:
+  - checkout_with_workspace
+  - restore_cache:
+      key: v1-npm-{{ checksum "package.json" }}-{{checksum "package-lock.json" }}
+  # https://medium.com/@mdsky1986/caching-node-dependencies-when-using-npm-ci-89fe3f46404a
+  - run:
+      name: Install node dependencies
+      command: "[ ! -d node_modules ] && npm ci --loglevel warn --yes || echo package.json and package-lock.json unchanged. Using cache."
+  - save_cache:
+      key: v1-npm-{{ checksum "package.json" }}-{{checksum "package-lock.json" }}
+      paths:
+        - node_modules
+  - persist_to_workspace:
+      root: ~/
+      paths:
+        - project

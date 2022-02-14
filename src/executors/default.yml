@@ -1,0 +1,11 @@
+description: >
+  This is a sample executor using Docker and Node.
+docker:
+  - image: 'cimg/php:<<parameters.tag>>'
+parameters:
+  tag:
+    default: 7.4-browsers
+    description: >
+      Pick a specific circleci/php image variant:
+      https://hub.docker.com/r/cimg/php/tags
+    type: string
