@@ -1,0 +1,10 @@
+description: >
+  Lint the JS & SCSS files.
+
+executor: default
+
+steps:
+  - checkout_with_workspace
+  - run:
+      name: Run Linter
+      command: npm run lint

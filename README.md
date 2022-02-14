@@ -147,6 +147,34 @@ See note about `typescript-check` script above.
 
 ---
 
+## CircleCI Orb
+
+This repository hosts a [CircleCI Orb](https://circleci.com/docs/2.0/orb-intro), in `/src` directory. An Orb is a re-usable configuration – here's an example of how to use it:
+
+```yml
+version: 2.1
+
+orbs:
+  newspack: adekbadek/newspack@1.0.0
+
+workflows:
+  version: 2
+  all:
+    jobs:
+      - newspack/build
+```
+
+### Updating the Orb
+
+To update the Orb, use [CircleCI's CLI's](https://circleci.com/docs/2.0/local-cli/) [`pack`](https://circleci-public.github.io/circleci-cli/circleci_orb_pack.html) and [`publish`](https://circleci-public.github.io/circleci-cli/circleci_orb_publish.html) commands:
+
+```bash
+# Replace the `version` at the end (e.g. 1.0.1)
+circleci orb pack src/ > orb.yml && circleci orb publish orb.yml adekbadek/newspack@version
+```
+
+---
+
 ## Misc
 
 ### `@wordpress/*` packages
