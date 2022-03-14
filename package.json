@@ -19,7 +19,7 @@
     "@testing-library/react": "^12.1.2",
     "@types/wordpress__data": "^4.6.10",
     "@wordpress/a11y": "^3.2.4",
-    "@wordpress/api-fetch": "^5.2.6",
+    "@wordpress/api-fetch": "^6.1.1",
     "@wordpress/base-styles": "^4.0.4",
     "@wordpress/block-editor": "^8.0.11",
     "@wordpress/blocks": "^11.1.4",
