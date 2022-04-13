@@ -14,7 +14,7 @@ const filesList = files.split(",");
 
 utils.log(`Releasing ${process.env.CIRCLE_PROJECT_REPONAME}…`);
 
-const shouldPublishOnNPM = npmPackageName && process.env.NPM_TOKEN;
+const shouldPublishOnNPM = Boolean(npmPackageName && process.env.NPM_TOKEN);
 
 if (npmPackageName) {
   if (process.env.NPM_TOKEN) {
