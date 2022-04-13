@@ -71,7 +71,6 @@ const config = {
       "@semantic-release/npm",
       {
         npmPublish: shouldPublishOnNPM,
-        pkgRoot: `./release/${process.env.CIRCLE_PROJECT_REPONAME}`,
       },
     ],
     "semantic-release-version-bump",
