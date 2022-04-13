@@ -6,7 +6,7 @@ const utils = require("./utils/index.js");
 
 const semanticRelease = require("semantic-release");
 
-const { files, ...semanticReleaseArgs } = require("yargs/yargs")(
+const { files, ...otherArgs } = require("yargs/yargs")(
   process.argv.slice(2)
 ).parse();
 
@@ -14,10 +14,16 @@ const filesList = files.split(",");
 
 utils.log(`Releasing ${process.env.CIRCLE_PROJECT_REPONAME}…`);
 
+const shouldPublishOnNPM = Boolean(process.env.NPM_TOKEN);
+
+if (shouldPublishOnNPM) {
+  utils.log(`Will publish on npm`);
+}
+
 const config = {
-  dryRun: semanticReleaseArgs.dryRun,
-  ci: semanticReleaseArgs.ci,
-  debug: semanticReleaseArgs.debug,
+  dryRun: otherArgs.dryRun,
+  ci: otherArgs.ci,
+  debug: otherArgs.debug,
 
   branches: [
     // `release` branch is published on the main distribution channel (a new version on GH).
@@ -61,10 +67,10 @@ const config = {
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     [
-      // Do not publish on npm.
+      // Whether to publish on npm.
       "@semantic-release/npm",
       {
-        npmPublish: false,
+        npmPublish: shouldPublishOnNPM,
       },
     ],
     "semantic-release-version-bump",
