@@ -6,7 +6,7 @@ const utils = require("./utils/index.js");
 
 const semanticRelease = require("semantic-release");
 
-const { files, npmPackageName, ...otherArgs } = require("yargs/yargs")(
+const { files, ...otherArgs } = require("yargs/yargs")(
   process.argv.slice(2)
 ).parse();
 
@@ -14,17 +14,10 @@ const filesList = files.split(",");
 
 utils.log(`Releasing ${process.env.CIRCLE_PROJECT_REPONAME}…`);
 
-const shouldPublishOnNPM = Boolean(npmPackageName && process.env.NPM_TOKEN);
+const shouldPublishOnNPM = Boolean(process.env.NPM_TOKEN);
 
-if (npmPackageName) {
-  if (process.env.NPM_TOKEN) {
-    utils.log(`Will publish on npm as ${npmPackageName}`);
-  } else {
-    utils.log(
-      `npm package name specified, but no NPM_TOKEN environment variable set – npm package will not be released.`,
-      "warning"
-    );
-  }
+if (shouldPublishOnNPM) {
+  utils.log(`Will publish on npm`);
 }
 
 const config = {
