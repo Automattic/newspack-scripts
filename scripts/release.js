@@ -2,6 +2,7 @@
 
 const spawn = require("cross-spawn");
 const path = require("path");
+const utils = require("./utils/index.js");
 
 const semanticRelease = require("semantic-release");
 
@@ -11,7 +12,7 @@ const { files, ...semanticReleaseArgs } = require("yargs/yargs")(
 
 const filesList = files.split(",");
 
-console.log(`Releasing ${process.env.CIRCLE_PROJECT_REPONAME}…`);
+utils.log(`Releasing ${process.env.CIRCLE_PROJECT_REPONAME}…`);
 
 const config = {
   dryRun: semanticReleaseArgs.dryRun,
@@ -89,21 +90,21 @@ const run = async () => {
     if (result) {
       const { lastRelease, commits, nextRelease, releases } = result;
 
-      console.log(
+      utils.log(
         `Published ${nextRelease.type} release version ${nextRelease.version} containing ${commits.length} commits.`
       );
 
       if (lastRelease.version) {
-        console.log(`The last release was "${lastRelease.version}".`);
+        utils.log(`The last release was "${lastRelease.version}".`);
       }
 
       for (const release of releases) {
-        console.log(
+        utils.log(
           `The release was published with plugin "${release.pluginName}".`
         );
       }
     } else {
-      console.log("No release published.");
+      utils.log("No release published.");
     }
   } catch (err) {
     console.error("The automated release failed with %O", err);
