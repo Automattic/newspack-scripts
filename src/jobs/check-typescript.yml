@@ -1,0 +1,10 @@
+description: >
+  Validate TypeScript.
+
+executor: default
+
+steps:
+  - checkout_with_workspace
+  - run:
+      name: Validate TypeScript
+      command: npm run typescript:check
