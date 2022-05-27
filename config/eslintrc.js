@@ -32,7 +32,7 @@ module.exports = {
     },
   },
   ignorePatterns: ["dist/", "node_modules/"],
-  parser: "@babel/eslint-parser",
+  parser: "@typescript-eslint/parser",
   rules: {
     "no-console": "off",
     camelcase: "off",
