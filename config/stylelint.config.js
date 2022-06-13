@@ -10,7 +10,6 @@ module.exports = {
     "string-quotes": "single",
     "no-descending-specificity": null,
     "function-url-quotes": null,
-    "declaration-property-unit-whitelist": null,
     "font-weight-notation": null,
     "color-named": null,
     "function-parentheses-space-inside": "always-single-line",
