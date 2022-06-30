@@ -31,12 +31,12 @@ const config = {
     // `alpha` branch – for regular pre-releases.
     {
       name: "alpha",
-      prerelease: "alpha",
+      prerelease: true,
     },
     // `hotfix/*` branches – for releases outside of the release schedule.
     {
       name: "hotfix/*",
-      prerelease: "hotfix",
+      prerelease: true,
     },
   ],
   prepare: [
