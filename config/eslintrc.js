@@ -57,5 +57,9 @@ module.exports = {
     // For TypeScript type declarations.
     camelcase: "off",
     "@typescript-eslint/no-empty-function": "off",
+    // Fail on unused vars.
+    "@typescript-eslint/no-unused-vars": "error",
+    // Disallow logging.
+    "no-console": "error",
   },
 };
