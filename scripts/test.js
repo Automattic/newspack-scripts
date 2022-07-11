@@ -15,19 +15,19 @@ const JEST_CONFIG = {
   setupFilesAfterEnv: [path.resolve(__dirname, "utils/jestSetup.js")],
   testMatch: ["<rootDir>/**/*test.js?(x)"],
   transform: {
-    "^.+\\.js?$": path.resolve(__dirname, "utils/babelJestTransformer.js")
+    "^.+\\.(j|t)sx?$": path.resolve(__dirname, "utils/babelJestTransformer.js"),
   },
   transformIgnorePatterns: ["/node_modules/(?!newspack-scripts/)"],
   moduleNameMapper: {
-    "\\.(scss|css)$": path.resolve(__dirname, "utils/babelJestTransformer.js")
+    "\\.(scss|css)$": path.resolve(__dirname, "utils/babelJestTransformer.js"),
   },
   testEnvironment: "jsdom",
   collectCoverageFrom: [
     "**/*.{js,jsx}",
     "!**/node_modules/**",
     "!**/dist/**",
-    "!**/vendor/**"
-  ]
+    "!**/vendor/**",
+  ],
 };
 
 argv.push("--config", JSON.stringify(JEST_CONFIG));
