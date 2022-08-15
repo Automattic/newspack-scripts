@@ -20,7 +20,7 @@
     "@types/wordpress__data": "^4.6.10",
     "@typescript-eslint/parser": "^5.26.0",
     "@wordpress/a11y": "^3.2.4",
-    "@wordpress/api-fetch": "^5.2.6",
+    "@wordpress/api-fetch": "^6.12.0",
     "@wordpress/base-styles": "^4.0.4",
     "@wordpress/block-editor": "^8.0.11",
     "@wordpress/blocks": "^11.1.4",
