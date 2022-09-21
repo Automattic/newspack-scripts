@@ -2,12 +2,12 @@ description: >
   Run PHP tests.
 
 docker:
-  - image: cimg/php:7.4
+  - image: cimg/php:8.0
   - image: circleci/mysql:5.6.50
 
 environment:
-  - WP_TESTS_DIR: '/tmp/wordpress-tests-lib'
-  - WP_CORE_DIR: '/tmp/wordpress/'
+  - WP_TESTS_DIR: "/tmp/wordpress-tests-lib"
+  - WP_CORE_DIR: "/tmp/wordpress/"
 steps:
   - checkout
   - run:
