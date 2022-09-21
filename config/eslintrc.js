@@ -61,5 +61,9 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "error",
     // Disallow logging.
     "no-console": "error",
+    // Handle the issue where no-shadow is a false positive when declaring TS enums.
+    // See https://github.com/typescript-eslint/typescript-eslint/issues/2483
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
   },
 };
