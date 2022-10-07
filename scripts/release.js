@@ -36,7 +36,9 @@ const config = {
     // `hotfix/*` branches – for releases outside of the release schedule.
     {
       name: "hotfix/*",
-      prerelease: true,
+      // With `prerelease: true`, the `name` would be used for the pre-release tag. A name with a `/`
+      // is not valid, though. See https://semver.org/#spec-item-9.
+      prerelease: "hotfix",
     },
   ],
   prepare: [
