@@ -42,7 +42,7 @@
     "@wordpress/stylelint-config": "^20.0.2",
     "@wordpress/url": "^3.3.1",
     "autoprefixer": "^10.4.0",
-    "babel-jest": "^27.4.2",
+    "babel-jest": "^29.2.2",
     "commitizen": "^4.2.4",
     "cross-spawn": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
