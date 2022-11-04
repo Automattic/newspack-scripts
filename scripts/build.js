@@ -2,6 +2,7 @@
 
 const spawn = require("cross-spawn");
 const modules = require("./utils/modules");
+const utils = require("./utils/index.js");
 
 const result = spawn.sync(process.execPath, [modules.calypsoBuild], {
   cwd: modules.rootDirectory,
