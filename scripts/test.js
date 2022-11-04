@@ -7,6 +7,9 @@ const jest = require("jest");
 const path = require("path");
 
 const modules = require("./utils/modules");
+const utils = require("./utils/index.js");
+
+utils.log("Starting tests…");
 
 let argv = process.argv.slice(2);
 

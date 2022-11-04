@@ -5,6 +5,8 @@ const path = require("path");
 const modules = require("./utils/modules");
 const utils = require("./utils/index.js");
 
+utils.log("Starting TypeScript check…");
+
 const result = spawn.sync(`${process.cwd()}/node_modules/.bin/tsc`, [], {
   stdio: "inherit",
 });
