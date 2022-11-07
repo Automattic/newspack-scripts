@@ -11,7 +11,12 @@ steps:
   - run:
       name: Install node dependencies
       # --legacy-peer-deps flag should be removed once https://github.com/Automattic/newspack-plugin/issues/1218 is resolved
-      command: "[ ! -d node_modules ] && npm ci --legacy-peer-deps --loglevel warn --yes || echo package.json and package-lock.json unchanged. Using cache."
+      command: |
+        if test -d "node_modules"; then
+          echo "package.json and package-lock.json unchanged. Using cache."
+        else
+          npm ci --legacy-peer-deps --loglevel warn --yes
+        fi
   - save_cache:
       key: v1-npm-{{ checksum "package.json" }}-{{checksum "package-lock.json" }}
       paths:
