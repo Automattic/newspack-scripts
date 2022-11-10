@@ -1,11 +1,8 @@
-description: >
-  This is a sample executor using Docker and Node.
+description: PHP executor
 docker:
   - image: "cimg/php:<<parameters.tag>>"
 parameters:
   tag:
-    default: 8.0-browsers
-    description: >
-      Pick a specific circleci/php image variant:
-      https://hub.docker.com/r/cimg/php/tags
+    default: 8.0-node
+    description: PHP image version
     type: string
