@@ -5,6 +5,7 @@ executor: default
 
 steps:
   - checkout_with_workspace
+  - set_node_version
   - run:
       name: Install rsync
       command: sudo apt-get update && sudo apt-get install rsync
