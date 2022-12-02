@@ -39,7 +39,7 @@ const getConfig = ({ gitBranchName }) => {
         name: "hotfix/*",
         // With `prerelease: true`, the `name` would be used for the pre-release tag. A name with a `/`
         // is not valid, though. See https://semver.org/#spec-item-9.
-        prerelease: "hotfix",
+        prerelease: '${name.replace(/\\//g, "-")}',
       },
     ],
     prepare: ["@semantic-release/changelog", "@semantic-release/npm"],
