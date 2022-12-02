@@ -20,39 +20,67 @@ if (shouldPublishOnNPM) {
   utils.log(`Will publish on npm`);
 }
 
-const config = {
-  dryRun: otherArgs.dryRun,
-  ci: otherArgs.ci,
-  debug: otherArgs.debug,
+const getConfig = ({ gitBranchName }) => {
+  const config = {
+    dryRun: otherArgs.dryRun,
+    ci: otherArgs.ci,
+    debug: otherArgs.debug,
 
-  branches: [
-    // `release` branch is published on the main distribution channel (a new version on GH).
-    "release",
-    // `alpha` branch – for regular pre-releases.
-    {
-      name: "alpha",
-      prerelease: true,
-    },
-    // `hotfix/*` branches – for releases outside of the release schedule.
-    {
-      name: "hotfix/*",
-      // With `prerelease: true`, the `name` would be used for the pre-release tag. A name with a `/`
-      // is not valid, though. See https://semver.org/#spec-item-9.
-      prerelease: "hotfix",
-    },
-  ],
-  prepare: [
-    "@semantic-release/changelog",
-    "@semantic-release/npm",
-    [
+    branches: [
+      // `release` branch is published on the main distribution channel (a new version on GH).
+      "release",
+      // `alpha` branch – for regular pre-releases.
+      {
+        name: "alpha",
+        prerelease: true,
+      },
+      // `hotfix/*` branches – for releases outside of the release schedule.
+      {
+        name: "hotfix/*",
+        // With `prerelease: true`, the `name` would be used for the pre-release tag. A name with a `/`
+        // is not valid, though. See https://semver.org/#spec-item-9.
+        prerelease: "hotfix",
+      },
+    ],
+    prepare: ["@semantic-release/changelog", "@semantic-release/npm"],
+    plugins: [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        // Whether to publish on npm.
+        "@semantic-release/npm",
+        {
+          npmPublish: shouldPublishOnNPM,
+        },
+      ],
+      "semantic-release-version-bump",
+      // Add the built ZIP archive to GH release.
+      [
+        "@semantic-release/github",
+        {
+          assets: [
+            {
+              path: `./release/${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
+              label: `${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
+            },
+          ],
+        },
+      ],
+    ],
+  };
+
+  // Unless on a hotfix branch, add a commit that updates the files.
+  if (gitBranchName.indexOf("hotfix/") !== 0) {
+    utils.log(`Plugin files and the changelog will be updated.`);
+    config.prepare.push([
       // Increment the version in additional files, and the create the release archive.
       "semantic-release-version-bump",
       {
         files: filesList,
         callback: "npm run release:archive",
       },
-    ],
-    {
+    ]);
+    config.prepare.push({
       path: "@semantic-release/git",
       // These assets should be added to source control after a release.
       assets: [
@@ -63,37 +91,23 @@ const config = {
       ],
       message:
         "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
-    },
-  ],
-  plugins: [
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
-    [
-      // Whether to publish on npm.
-      "@semantic-release/npm",
-      {
-        npmPublish: shouldPublishOnNPM,
-      },
-    ],
-    "semantic-release-version-bump",
-    // Add the built ZIP archive to GH release.
-    [
-      "@semantic-release/github",
-      {
-        assets: [
-          {
-            path: `./release/${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
-            label: `${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
-          },
-        ],
-      },
-    ],
-  ],
+    });
+  } else {
+    utils.log(
+      `This is a hotfix branch, plugin files and the changelog will *not* be updated.`
+    );
+  }
+
+  return config;
 };
 
 const run = async () => {
   try {
-    const result = await semanticRelease(config);
+    const gitBranch = await utils.getGitBranch();
+
+    const result = await semanticRelease(
+      getConfig({ gitBranchName: gitBranch })
+    );
 
     if (result) {
       const { lastRelease, commits, nextRelease, releases } = result;
