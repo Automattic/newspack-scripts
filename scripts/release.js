@@ -3,6 +3,7 @@
 const spawn = require("cross-spawn");
 const path = require("path");
 const utils = require("./utils/index.js");
+const slugg = require("slugg");
 
 const semanticRelease = require("semantic-release");
 
@@ -39,7 +40,7 @@ const getConfig = ({ gitBranchName }) => {
         name: "hotfix/*",
         // With `prerelease: true`, the `name` would be used for the pre-release tag. A name with a `/`
         // is not valid, though. See https://semver.org/#spec-item-9.
-        prerelease: "hotfix",
+        prerelease: slugg(gitBranchName),
       },
     ],
     prepare: ["@semantic-release/changelog", "@semantic-release/npm"],

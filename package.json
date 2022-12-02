@@ -58,6 +58,7 @@
     "prettier": "npm:wp-prettier@^2.6.2-beta-1",
     "semantic-release": "^19.0.5",
     "semantic-release-version-bump": "^1.4.1",
+    "slugg": "^1.2.1",
     "stylelint": "^14.1.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-prettier": "^2.0.0",
