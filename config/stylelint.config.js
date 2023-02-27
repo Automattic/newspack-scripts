@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ["@wordpress/stylelint-config/scss"],
+  extends: ["stylelint-config-standard"],
   rules: {
     "rule-empty-line-before": null,
     "at-rule-empty-line-before": null,
