@@ -10,8 +10,11 @@ module.exports = {
     "color-named": null,
     "selector-class-pattern": null,
     "custom-property-pattern": null,
-    "at-rule-no-unknown": {
-      ignoreAtRules: ["use", "include", "mixin"],
-    },
+    "at-rule-no-unknown": [
+      true,
+      {
+        ignoreAtRules: ["use", "include", "mixin"],
+      },
+    ],
   },
 };
