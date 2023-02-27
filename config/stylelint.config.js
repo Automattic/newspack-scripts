@@ -10,10 +10,18 @@ module.exports = {
     "color-named": null,
     "selector-class-pattern": null,
     "custom-property-pattern": null,
-    "at-rule-no-unknown": [
+    "at-rule-no-unknown": null,
+    "alpha-value-notation": null,
+    "function-no-unknown": [
       true,
       {
-        ignoreAtRules: ["use", "include", "mixin"],
+        ignoreFunctions: ["/color/"],
+      },
+    ],
+    "annotation-no-unknown": [
+      true,
+      {
+        ignoreAnnotations: ["/default/"],
       },
     ],
   },
