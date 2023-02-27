@@ -1,8 +1,5 @@
 module.exports = {
-  extends: [
-    "@wordpress/stylelint-config/scss",
-    "stylelint-prettier/recommended",
-  ],
+  extends: ["@wordpress/stylelint-config/scss"],
   rules: {
     "rule-empty-line-before": null,
     "at-rule-empty-line-before": null,
