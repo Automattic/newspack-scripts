@@ -1,6 +1,5 @@
 module.exports = {
   extends: ["stylelint-config-standard"],
-  ignoreAtRules: ["use", "include", "mixin"],
   rules: {
     "rule-empty-line-before": null,
     "at-rule-empty-line-before": null,
@@ -11,5 +10,8 @@ module.exports = {
     "color-named": null,
     "selector-class-pattern": null,
     "custom-property-pattern": null,
+    "at-rule-no-unknown": {
+      ignoreAtRules: ["use", "include", "mixin"],
+    },
   },
 };
