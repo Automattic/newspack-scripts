@@ -12,6 +12,7 @@ module.exports = {
     "custom-property-pattern": null,
     "at-rule-no-unknown": null,
     "alpha-value-notation": null,
+    "color-function-notation": null,
     "function-no-unknown": [
       true,
       {
