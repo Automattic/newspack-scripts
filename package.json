@@ -36,7 +36,7 @@
     "@wordpress/hooks": "^3.2.2",
     "@wordpress/html-entities": "^3.2.3",
     "@wordpress/i18n": "^4.2.4",
-    "@wordpress/icons": "^6.1.1",
+    "@wordpress/icons": "^9.19.0",
     "@wordpress/keycodes": "^3.2.4",
     "@wordpress/plugins": "^4.0.6",
     "@wordpress/url": "^3.3.1",
