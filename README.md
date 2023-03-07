@@ -73,7 +73,7 @@ The following assumes that CI will run:
 ### Hotfix release flow
 
 1. Create a new `hotfix/*` branch off the `release` branch
-1. Push the branch to Github, so the CI can process it – _don't create a PR just yet!*_
+1. Push the branch to Github, so the CI can process it – _don't create a PR just yet!\*_
 1. A new "hotfix" pre-release (e.g. `1.2.0-hotfix.1`) will be published
 1. Merge the hotfix branch into `release` to create a release
 1. `alpha` & `master` branches will be updated with the changes from the `release` branch
@@ -91,13 +91,13 @@ This package exposes a couple of configuration files.
 The `webpack.config.js` file should use this package's config-extending function:
 
 ```js
-const getBaseWebpackConfig = require( 'newspack-scripts/config/getWebpackConfig' );
+const getBaseWebpackConfig = require("newspack-scripts/config/getWebpackConfig");
 
 const webpackConfig = getBaseWebpackConfig(
   { WP: true },
   {
     entry: {
-      'some-script': './src/some-script.js'
+      "some-script": "./src/some-script.js",
     },
   }
 );
@@ -110,10 +110,10 @@ module.exports = webpackConfig;
 A basic `babel.config.js`:
 
 ```js
-module.exports = api => {
-  api.cache( true );
+module.exports = (api) => {
+  api.cache(true);
   return {
-    extends: 'newspack-scripts/config/babel.config.js',
+    extends: "newspack-scripts/config/babel.config.js",
   };
 };
 ```
@@ -123,10 +123,10 @@ module.exports = api => {
 Because of eslint's [issue](https://github.com/eslint/eslint/issues/3458) with resolving dependencies of extended configurations, a patch has to be used to use this config in a stand-alone fashion: install `@rushstack/eslint-patch` and set up the `.eslintrc.js` like so:
 
 ```js
-require( '@rushstack/eslint-patch/modern-module-resolution' );
+require("@rushstack/eslint-patch/modern-module-resolution");
 
 module.exports = {
-  extends: [ './node_modules/newspack-scripts/config/eslintrc.js' ],
+  extends: ["./node_modules/newspack-scripts/config/eslintrc.js"],
   // Additional options…
 };
 ```
@@ -172,6 +172,8 @@ To update the Orb, use [CircleCI's CLI's](https://circleci.com/docs/2.0/local-cl
 # Replace the `version` at the end (e.g. 1.0.1)
 circleci orb pack src/ > orb.yml && circleci orb publish orb.yml newspack/newspack@version
 ```
+
+Note that before the first time updating you'll need to set the API key for CircleCI CLI by running `$ circleci setup`.
 
 ---
 
