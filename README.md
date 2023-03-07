@@ -155,7 +155,7 @@ This repository hosts a [CircleCI Orb](https://circleci.com/docs/2.0/orb-intro),
 version: 2.1
 
 orbs:
-  newspack: adekbadek/newspack@1.0.0
+  newspack: newspack/newspack@1.0.0
 
 workflows:
   version: 2
@@ -170,7 +170,7 @@ To update the Orb, use [CircleCI's CLI's](https://circleci.com/docs/2.0/local-cl
 
 ```bash
 # Replace the `version` at the end (e.g. 1.0.1)
-circleci orb pack src/ > orb.yml && circleci orb publish orb.yml adekbadek/newspack@version
+circleci orb pack src/ > orb.yml && circleci orb publish orb.yml newspack/newspack@version
 ```
 
 ---
