@@ -13,6 +13,7 @@ module.exports = {
     "at-rule-no-unknown": null,
     "alpha-value-notation": null,
     "color-function-notation": null,
+    "selector-not-notation": null,
     "function-no-unknown": [
       true,
       {
