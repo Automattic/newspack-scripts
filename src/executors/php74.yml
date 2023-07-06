@@ -1,0 +1,8 @@
+description: PHPCS executor
+docker:
+  - image: "cimg/php:<<parameters.tag>>"
+parameters:
+  tag:
+    default: 7.4-node
+    description: PHP image version
+    type: string
