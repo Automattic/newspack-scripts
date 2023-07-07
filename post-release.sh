@@ -11,24 +11,40 @@ SECOND_TO_LAST_COMMIT_MSG=$(git log -n 1 --skip 1 --pretty=format:"%s")
 
 LATEST_VERSION_TAG=$(git describe --tags --abbrev=0)
 
+git pull origin release
+git checkout alpha
+
 # If the merge was from alpha branch (the basic flow), alpha branch should be reset.
 if [[ $(echo $SECOND_TO_LAST_COMMIT_MSG | grep '^Merge .*alpha') ]]; then
   echo '[newspack-scripts] Release was created from the alpha branch. Alpha branch will now be reset.'
 
   # Reset the tip of alpha branch to the release branch.
-  # The alpha brach is single-serving, just for alpha releases. After a release,
+  # The alpha branch is single-serving, just for alpha releases. After a release,
   # we don't care about any alpha changes.
-  git pull origin release
-  git checkout alpha
   git reset --hard release --
   # Force-push the alpha branch.
   git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git" --force
 else
   echo '[newspack-scripts] Release was created from a different branch than the alpha branch (e.g. a hotfix branch).'
   echo '[newspack-scripts] Alpha branch will now be updated with the lastest changes from release.'
-  git checkout alpha
-  git merge release --strategy-option=theirs --message="Merge release into alpha"
-  git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git"
+  git merge --no-ff release -m "chore(release): merge in release $LATEST_VERSION_TAG"
+  if [[ $? == 0 ]]; then
+    git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git"
+  else
+    git merge --abort
+    echo '[newspack-scripts] Post-release merge to alpha failed.'
+    if [ -z "$SLACK_CHANNEL_ID" ] || [ -z "$SLACK_AUTH_TOKEN" ]; then
+      echo '[newspack-scripts] Missing Slack channel ID and/or token. Cannot notify.'
+    else
+      echo '[newspack-scripts] Notifying the team on Slack.'
+      curl \
+        --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ Post-release merge to alpha failed for: \`$CIRCLE_PROJECT_REPONAME\`. Check <$CIRCLE_BUILD_URL|the build> for details.\"}}]}" \
+        -H "Content-type: application/json" \
+        -H "Authorization: Bearer $SLACK_AUTH_TOKEN" \
+        -X POST https://slack.com/api/chat.postMessage \
+        -s > /dev/null
+    fi
+  fi
 fi
 
 # Update master branch with latest changes from the release branch, so they are in sync.
@@ -48,7 +64,7 @@ else
   else
     echo '[newspack-scripts] Notifying the team on Slack.'
     curl \
-      --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ Post-release merge failed for: \`$CIRCLE_PROJECT_REPONAME\`. Check <$CIRCLE_BUILD_URL|the build> for details.\"}}]}" \
+      --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ Post-release merge to master failed for: \`$CIRCLE_PROJECT_REPONAME\`. Check <$CIRCLE_BUILD_URL|the build> for details.\"}}]}" \
       -H "Content-type: application/json" \
       -H "Authorization: Bearer $SLACK_AUTH_TOKEN" \
       -X POST https://slack.com/api/chat.postMessage \
