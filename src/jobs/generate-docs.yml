@@ -19,7 +19,7 @@ steps:
   - run:
       name: Generate documentation
       command: |
-        ./phpdocumentor -d <<parameters.source>> -t ./docs
+        ./phpdocumentor run -d <<parameters.source>> -t ./docs
   - run:
       name: Switch to docs branch, commit, and push
       command: |
