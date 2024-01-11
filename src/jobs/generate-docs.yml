@@ -1,0 +1,29 @@
+description: >
+  Generate documentation.
+
+executor: default
+
+parameters:
+  source:
+    type: string
+    default: "./includes"
+    description: "The source for the docs to be generated from."
+
+steps:
+  - checkout
+  - run:
+      name: Download PHPDocumentor
+      command: |
+        curl -L -o ./phpdocumentor https://phpdoc.org/phpDocumentor.phar
+        chmod +x ./phpdocumentor
+  - run:
+      name: Generate documentation
+      command: |
+        ./phpdocumentor -d <<parameters.source>> -t ./docs
+  - run:
+      name: Switch to docs branch, commit, and push
+      command: |
+        git co -b docs
+        git add docs
+        git commit -m "Update docs"
+        git push origin docs
