@@ -1,7 +1,8 @@
 description: >
   Lint PHP files.
 
-executor: default
+# Run PHPCS on PHP 7.4 to avoid Fatal errors. See https://github.com/WordPress/WordPress-Coding-Standards/commit/7cd46bed1e6a7a2af3fe24c7f4a044da3076d8f4
+executor: php74
 
 steps:
   - checkout
