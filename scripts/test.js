@@ -22,8 +22,8 @@ const JEST_CONFIG = {
   },
   transformIgnorePatterns: [
     // Ignore all node_modules except for newspack-scripts, @wordpress/* packages, and
-    // a @wordpress/data dependency which distributes an ES6 module.
-    "/node_modules/(?!(newspack-scripts|@wordpress|is-plain-obj)/)",
+    // some transitive dependencies which distribute ES6 modules.
+    "/node_modules/(?!(newspack-scripts|@wordpress|is-plain-obj|memize)/)",
   ],
   moduleNameMapper: {
     "\\.(scss|css)$": path.resolve(__dirname, "utils/babelJestTransformer.js"),
