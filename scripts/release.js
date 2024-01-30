@@ -76,17 +76,19 @@ const getConfig = ({ gitBranchName }) => {
     ],
   };
 
+  // Bump the semver and prepare a build package.
+  config.prepare.push([
+    // Increment the version in additional files, and the create the release archive.
+    "semantic-release-version-bump",
+    {
+      files: filesList,
+      callback: "npm run release:archive",
+    },
+  ]);
+
   // Unless on a hotfix or epic branch, add a commit that updates the files.
   if (gitBranchName.indexOf("hotfix/") !== 0 && gitBranchName.indexOf("epic/") !== 0) {
     utils.log(`Plugin files and the changelog will be updated.`);
-    config.prepare.push([
-      // Increment the version in additional files, and the create the release archive.
-      "semantic-release-version-bump",
-      {
-        files: filesList,
-        callback: "npm run release:archive",
-      },
-    ]);
     config.prepare.push({
       path: "@semantic-release/git",
       // These assets should be added to source control after a release.
