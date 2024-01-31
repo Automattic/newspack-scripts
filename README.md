@@ -66,7 +66,7 @@ The following assumes that CI will run:
 
 ### Regular release flow
 
-1. Create a new `feat/*` or `fix/*` (or `chore/*` or `style/*`) branch off the `trunk` branch.
+1. Create a new branch off the `trunk` branch.
 1. Commit changes to your branch using [structured commit messages](https://www.conventionalcommits.org/en/v1.0.0/).
 1. Open a pull request for review based on `trunk`. Changes must be tested and approved before merging.
 1. Merge approved changes to the `trunk` branch. When merging into `trunk`, SQUASH the merge.
@@ -80,8 +80,8 @@ The following assumes that CI will run:
 For large-scale features that require more than one interdependent branch throughout development.
 
 1. Create a new `epic/*` branch off the `trunk` branch. Push the branch to GitHub so all engineers can work off it simultaneously. **Use `git pull origin trunk` to keep this branch up-to-date with `trunk`, to minimize the risk of merge conflicts.**
-1. For new features or fixes, create new `feat/*` or `fix/*` (or `chore/*` or `style/*`) branches off the epic branch. **Use `git pull origin epic/<branch-name>` to keep your feature and fix branches up-to-date with the `epic/*` branch, to minimize the risk of merge conflicts.**
-1. Commit changes to your feature or fix branches using [structured commit messages](https://www.conventionalcommits.org/en/v1.0.0/).
+1. Create new sub-branches off the epic branch. **Use `git pull origin epic/<branch-name>` to keep your feature and fix branches up-to-date with the `epic/*` branch, to minimize the risk of merge conflicts.**
+1. Commit changes to your sub-branches using [structured commit messages](https://www.conventionalcommits.org/en/v1.0.0/).
 1. Open pull requests for review based on the `epic/*` branch. Changes must be tested and approved before merging.
 1. Merge approved changes to the `epic/*` branch. When merging into `epic/*`, DO NOT SQUASH the merge.
 1. A new "epic" pre-release (e.g. `1.2.0-epic-feature.1`) will be tagged and published when changes are merged via PR. Use epic releases for QA and other pre-release testing.
