@@ -79,8 +79,8 @@ The following assumes that CI will run:
 
 For large-scale features that require more than one interdependent branch throughout development.
 
-1. Create a new `epic/*` branch off the `trunk` branch. Push the branch to GitHub so all engineers can work off it simultaneously. **Use `git pull origin trunk` to keep this branch up-to-date with `trunk`, to minimize the risk of merge conflicts.**
-1. Create new sub-branches off the epic branch. **Use `git pull origin epic/<branch-name>` to keep your feature and fix branches up-to-date with the `epic/*` branch, to minimize the risk of merge conflicts.**
+1. Create a new `epic/*` branch off the `trunk` branch. Push the branch to GitHub so all engineers can work off it simultaneously. **Keep this branch up-to-date with `trunk`, to minimize the risk of merge conflicts.**
+1. Create new sub-branches off the epic branch. **Keep sub-branches up-to-date with the `epic/*` branch, to minimize the risk of merge conflicts.**
 1. Commit changes to your sub-branches using [structured commit messages](https://www.conventionalcommits.org/en/v1.0.0/).
 1. Open pull requests for review based on the `epic/*` branch. Changes must be tested and approved before merging.
 1. Merge approved changes to the `epic/*` branch. When merging into `epic/*`, DO NOT SQUASH the merge.
