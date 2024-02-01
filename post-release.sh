@@ -47,24 +47,24 @@ else
   fi
 fi
 
-# Update master branch with latest changes from the release branch, so they are in sync.
-echo '[newspack-scripts] Merging the release branch into master.'
-git checkout master
+# Update trunk branch with latest changes from the release branch, so they are in sync.
+echo '[newspack-scripts] Merging the release branch into trunk.'
+git checkout trunk
 
-# Merge release branch into master branch, and notify the team if any conflicts arise.
+# Merge release branch into trunk branch, and notify the team if any conflicts arise.
 git merge --no-ff release -m "chore(release): merge in release $LATEST_VERSION_TAG"
 if [[ $? == 0 ]]; then
-  echo '[newspack-scripts] Pushing updated master to origin.'
+  echo '[newspack-scripts] Pushing updated trunk to origin.'
   git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git"
 else
   git merge --abort
-  echo '[newspack-scripts] Post-release merge to master failed.'
+  echo '[newspack-scripts] Post-release merge to trunk failed.'
   if [ -z "$SLACK_CHANNEL_ID" ] || [ -z "$SLACK_AUTH_TOKEN" ]; then
     echo '[newspack-scripts] Missing Slack channel ID and/or token. Cannot notify.'
   else
     echo '[newspack-scripts] Notifying the team on Slack.'
     curl \
-      --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ Post-release merge to master failed for: \`$CIRCLE_PROJECT_REPONAME\`. Check <$CIRCLE_BUILD_URL|the build> for details.\"}}]}" \
+      --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ Post-release merge to \`trunk\` failed for: \`$CIRCLE_PROJECT_REPONAME\`. Check <$CIRCLE_BUILD_URL|the build> for details.\"}}]}" \
       -H "Content-type: application/json" \
       -H "Authorization: Bearer $SLACK_AUTH_TOKEN" \
       -X POST https://slack.com/api/chat.postMessage \

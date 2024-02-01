@@ -1,6 +1,6 @@
 ### All Submissions:
 
-* [ ] Have you followed the [Newspack Contributing guideline](https://github.com/Automattic/newspack-theme/blob/master/.github/CONTRIBUTING.md)?
+* [ ] Have you followed the [Newspack Contributing guideline](https://github.com/Automattic/newspack-theme/blob/trunk/.github/CONTRIBUTING.md)?
 * [ ] Have you checked to ensure there aren't other open [Pull Requests](../../pulls) for the same update/change?
 
 <!-- Mark completed items with an [x] -->

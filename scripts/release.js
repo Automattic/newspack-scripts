@@ -41,6 +41,13 @@ const getConfig = ({ gitBranchName }) => {
         // is not valid, though. See https://semver.org/#spec-item-9.
         prerelease: '${name.replace(/\\//g, "-")}',
       },
+      // `epic/*` branches – for beta testing/QA pre-release builds.
+      {
+        name: "epic/*",
+        // With `prerelease: true`, the `name` would be used for the pre-release tag. A name with a `/`
+        // is not valid, though. See https://semver.org/#spec-item-9.
+        prerelease: '${name.replace(/\\//g, "-")}',
+      },
     ],
     prepare: ["@semantic-release/changelog", "@semantic-release/npm"],
     plugins: [
@@ -69,17 +76,19 @@ const getConfig = ({ gitBranchName }) => {
     ],
   };
 
-  // Unless on a hotfix branch, add a commit that updates the files.
-  if (gitBranchName.indexOf("hotfix/") !== 0) {
+  // Bump the semver and prepare a build package.
+  config.prepare.push([
+    // Increment the version in additional files, and the create the release archive.
+    "semantic-release-version-bump",
+    {
+      files: filesList,
+      callback: "npm run release:archive",
+    },
+  ]);
+
+  // Unless on a hotfix or epic branch, add a commit that updates the files.
+  if (gitBranchName.indexOf("hotfix/") !== 0 && gitBranchName.indexOf("epic/") !== 0) {
     utils.log(`Plugin files and the changelog will be updated.`);
-    config.prepare.push([
-      // Increment the version in additional files, and the create the release archive.
-      "semantic-release-version-bump",
-      {
-        files: filesList,
-        callback: "npm run release:archive",
-      },
-    ]);
     config.prepare.push({
       path: "@semantic-release/git",
       // These assets should be added to source control after a release.
@@ -93,8 +102,9 @@ const getConfig = ({ gitBranchName }) => {
         "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
     });
   } else {
+    const branchType = gitBranchName.indexOf("hotfix/") === 0 ? 'hotfix' : 'epic';
     utils.log(
-      `This is a hotfix branch, plugin files and the changelog will *not* be updated.`
+      `This is a ${branchType} branch, plugin files and the changelog will *not* be updated.`
     );
   }
 
