@@ -196,6 +196,11 @@ circleci orb pack src/ > orb.yml && circleci orb publish orb.yml newspack/newspa
 
 Note that before the first time updating you'll need to set the API key for CircleCI CLI by running `$ circleci setup`.
 
+### Testing locally
+
+1. Copy the path to this repository (e.g. `pwd | pbcopy`) and "install" it as an npm dependency in the repository on which you wish to test (e.g. `npm i /path/to/newspack-scripts`). You should end up with a `"newspack-scripts": "file:*"` entry in `package.json` instead of a version number.
+2. Trigger a script and observe the results, e.g. `npm run semantic-release -- --dry-run`
+
 ---
 
 ## Misc

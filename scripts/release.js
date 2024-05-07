@@ -87,24 +87,32 @@ const getConfig = ({ gitBranchName }) => {
   ]);
 
   // Unless on a hotfix or epic branch, add a commit that updates the files.
-  if (gitBranchName.indexOf("hotfix/") !== 0 && gitBranchName.indexOf("epic/") !== 0) {
-    utils.log(`Plugin files and the changelog will be updated.`);
-    config.prepare.push({
-      path: "@semantic-release/git",
-      // These assets should be added to source control after a release.
-      assets: [
+  const branchType = gitBranchName.split("/")[0];
+  if (["hotfix", "epic"].indexOf(branchType) === -1) {
+    let assets = filesList;
+    // These assets should be added to source control after a release.
+    if (branchType === "release") {
+      assets = [
         ...filesList,
         "package.json",
         "package-lock.json",
         "CHANGELOG.md",
-      ],
+      ];
+    }
+    utils.log(
+      `On ${branchType} branch, following files will be updated: ${assets.join(
+        ", "
+      )}`
+    );
+    config.prepare.push({
+      path: "@semantic-release/git",
+      assets,
       message:
         "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
     });
   } else {
-    const branchType = gitBranchName.indexOf("hotfix/") === 0 ? 'hotfix' : 'epic';
     utils.log(
-      `This is a ${branchType} branch, plugin files and the changelog will *not* be updated.`
+      `This branch is ${branchType}, plugin files and the changelog will *not* be updated.`
     );
   }
 
