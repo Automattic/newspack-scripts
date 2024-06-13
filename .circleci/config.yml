@@ -24,7 +24,7 @@ jobs:
           command: node --version
       - run:
           name: install
-          command: npm install
+          command: npm install --legacy-peer-deps
       - run:
           name: release
           command: npm run semantic-release || true
