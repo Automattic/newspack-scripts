@@ -3,15 +3,17 @@
 process.env.BABEL_ENV = 'test';
 process.env.NODE_ENV = 'test';
 
-const jest = require( 'jest' );
 const path = require( 'path' );
 
+const spawn = require( 'cross-spawn' );
 const modules = require( './utils/modules' );
 const utils = require( './utils/index.js' );
+const wpScripts = require.resolve( '@wordpress/scripts/bin/wp-scripts' );
 
 utils.log( 'Starting tests…' );
 
-const argv = process.argv.slice( 2 );
+const args = process.argv.slice( 2 );
+args.push( 'test-unit-js' );
 
 const JEST_CONFIG = {
 	rootDir: modules.rootDirectory,
@@ -28,6 +30,10 @@ const JEST_CONFIG = {
 	moduleNameMapper: {
 		'\\.(scss|css)$': path.resolve( __dirname, 'utils/babelJestTransformer.js' ),
 	},
+	modulePaths: [
+		path.resolve( modules.rootDirectory, 'node_modules' ),
+		path.resolve( __dirname, '../node_modules' ),
+	],
 	testEnvironment: 'jsdom',
 	collectCoverageFrom: [
 		'**/*.{js,jsx}',
@@ -37,6 +43,10 @@ const JEST_CONFIG = {
 	],
 };
 
-argv.push( '--config', JSON.stringify( JEST_CONFIG ) );
+args.push( '--config', JSON.stringify( JEST_CONFIG ) );
 
-jest.run( argv );
+spawn.sync( wpScripts, args, {
+	cwd: modules.rootDirectory,
+	stdio: 'inherit',
+	env: { ...process.env, NODE_ENV: 'development' },
+} );
