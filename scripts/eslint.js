@@ -7,13 +7,13 @@ const wpScripts = require.resolve( '@wordpress/scripts/bin/wp-scripts' );
 
 utils.log( 'Linting JS…' );
 
-const args = process.argv.slice(2);
+const args = process.argv.slice( 2 );
 
 const result = spawn.sync(
 	wpScripts,
 	[
 		'lint-js',
-		...args
+		...args,
 	],
 	{
 		cwd: modules.rootDirectory,

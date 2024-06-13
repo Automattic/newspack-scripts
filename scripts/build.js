@@ -13,8 +13,8 @@ const buildResult = spawn.sync( wpScripts, modules.args( 'build' ), {
 	env: { ...process.env, NODE_ENV: 'production' },
 } );
 
-if (buildResult.status === 0) {
-  utils.log( 'Build succeeded!' );
+if ( buildResult.status === 0 ) {
+	utils.log( 'Build succeeded!' );
 }
 
 process.exit( buildResult.status );

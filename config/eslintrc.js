@@ -10,66 +10,66 @@ const reactRecommended = require.resolve( '@wordpress/eslint-plugin/configs/reac
 // More on this:
 // - https://www.npmjs.com/package/@wordpress/dependency-extraction-webpack-plugin
 // - https://github.com/WordPress/gutenberg/issues/35630
-const GLOBALLY_AVAILABLE_PACKAGES = ["@wordpress/.*"];
+const GLOBALLY_AVAILABLE_PACKAGES = [ '@wordpress/.*' ];
 
 module.exports = {
-  extends: [
-	'plugin:import/errors',
-	'plugin:import/warnings',
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    wpRecommended,
-    reactRecommended,
-  ],
-  env: {
-    browser: true,
-    jest: true,
-  },
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
-  settings: {
-    "import/resolver": {
-      node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
-      },
-    },
-  },
-  ignorePatterns: ["dist/", "node_modules/"],
-  parser: "@typescript-eslint/parser",
-  rules: {
-	"arrow-parens": "off",
-    "camelcase": "off",
-    "no-console": "off",
-	"no-mixed-operators": "off",
-	"space-before-function-paren": "off",
-	"wrap-iife": "off",
-    // Some dependencies are injected by WP, and should not be declared in package.json (won't be used anyway).
-    // See https://github.com/WordPress/gutenberg/blob/e035f71/packages/dependency-extraction-webpack-plugin/README.md#behavior-with-scripts
-    // Unfortunately there's no "ignore" option for this rule, so it's disabled altogether.
-    "import/no-extraneous-dependencies": "off",
-    "import/no-unresolved": ["error", { ignore: GLOBALLY_AVAILABLE_PACKAGES }],
-	"import/namespace": "off",
-    // There's a conflict with prettier here:
-    "react/jsx-curly-spacing": "off",
-    // Skip prop types validation for now
-    "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
-    "react/self-closing-comp": "error",
-	"react-hooks/exhaustive-deps": "off",
-    // JSDoc rules overrides
-    "jsdoc/require-returns": "off",
-    "jsdoc/require-param": "off",
-    // Deprecated rules
-    "jsx-a11y/no-onchange": "off",
-    "@typescript-eslint/no-empty-function": "off",
-    // Fail on unused vars.
-    "@typescript-eslint/no-unused-vars": "error",
-    // Disallow logging.
-    "no-console": "error",
-    // Handle the issue where no-shadow is a false positive when declaring TS enums.
-    // See https://github.com/typescript-eslint/typescript-eslint/issues/2483
-    "no-shadow": "off",
-    "@typescript-eslint/no-shadow": "error",
-	"@typescript-eslint/ban-ts-comment": "warn",
-  },
+	extends: [
+		'plugin:import/errors',
+		'plugin:import/warnings',
+		'plugin:@typescript-eslint/eslint-recommended',
+		'plugin:@typescript-eslint/recommended',
+		wpRecommended,
+		reactRecommended,
+	],
+	env: {
+		browser: true,
+		jest: true,
+	},
+	parser: '@typescript-eslint/parser',
+	plugins: [ '@typescript-eslint' ],
+	settings: {
+		'import/resolver': {
+			node: {
+				extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
+			},
+		},
+	},
+	ignorePatterns: [ 'dist/', 'node_modules/' ],
+	parser: '@typescript-eslint/parser',
+	rules: {
+		'arrow-parens': 'off',
+		camelcase: 'off',
+		'no-console': 'off',
+		'no-mixed-operators': 'off',
+		'space-before-function-paren': 'off',
+		'wrap-iife': 'off',
+		// Some dependencies are injected by WP, and should not be declared in package.json (won't be used anyway).
+		// See https://github.com/WordPress/gutenberg/blob/e035f71/packages/dependency-extraction-webpack-plugin/README.md#behavior-with-scripts
+		// Unfortunately there's no "ignore" option for this rule, so it's disabled altogether.
+		'import/no-extraneous-dependencies': 'off',
+		'import/no-unresolved': [ 'error', { ignore: GLOBALLY_AVAILABLE_PACKAGES } ],
+		'import/namespace': 'off',
+		// There's a conflict with prettier here:
+		'react/jsx-curly-spacing': 'off',
+		// Skip prop types validation for now
+		'react/prop-types': 'off',
+		'react/react-in-jsx-scope': 'off',
+		'react/self-closing-comp': 'error',
+		'react-hooks/exhaustive-deps': 'off',
+		// JSDoc rules overrides
+		'jsdoc/require-returns': 'off',
+		'jsdoc/require-param': 'off',
+		// Deprecated rules
+		'jsx-a11y/no-onchange': 'off',
+		'@typescript-eslint/no-empty-function': 'off',
+		// Fail on unused vars.
+		'@typescript-eslint/no-unused-vars': 'error',
+		// Disallow logging.
+		'no-console': 'error',
+		// Handle the issue where no-shadow is a false positive when declaring TS enums.
+		// See https://github.com/typescript-eslint/typescript-eslint/issues/2483
+		'no-shadow': 'off',
+		'@typescript-eslint/no-shadow': 'error',
+		'@typescript-eslint/ban-ts-comment': 'warn',
+	},
 };
