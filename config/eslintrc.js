@@ -1,3 +1,8 @@
+const wpRecommended = require.resolve( '@wordpress/eslint-plugin/configs/recommended' );
+const reactRecommended = require.resolve( '@wordpress/eslint-plugin/configs/react' );
+// const tsRecommended = require.resolve( '@typescript-eslint/eslint-plugin/dist/configs/recommended' );
+// const tsESLintRecommended = require.resolve( '@typescript-eslint/eslint-plugin/dist/configs/eslint-recommended' );
+
 // Assume `@wordpress/*` packages are available. This is because `calypso-build` is using
 // Dependency Extraction Webpack Plugin to use core WP packages instead of those from
 // node_modules. The packages should still be part of the project (they are listed in this
@@ -9,12 +14,12 @@ const GLOBALLY_AVAILABLE_PACKAGES = ["@wordpress/.*"];
 
 module.exports = {
   extends: [
-    "plugin:@wordpress/eslint-plugin/recommended",
-    "plugin:react/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
+	'plugin:import/errors',
+	'plugin:import/warnings',
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    wpRecommended,
+    reactRecommended,
   ],
   env: {
     browser: true,
@@ -32,26 +37,30 @@ module.exports = {
   ignorePatterns: ["dist/", "node_modules/"],
   parser: "@typescript-eslint/parser",
   rules: {
+	"arrow-parens": "off",
+    "camelcase": "off",
     "no-console": "off",
-    camelcase: "off",
+	"no-mixed-operators": "off",
+	"space-before-function-paren": "off",
+	"wrap-iife": "off",
     // Some dependencies are injected by WP, and should not be declared in package.json (won't be used anyway).
     // See https://github.com/WordPress/gutenberg/blob/e035f71/packages/dependency-extraction-webpack-plugin/README.md#behavior-with-scripts
     // Unfortunately there's no "ignore" option for this rule, so it's disabled altogether.
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": ["error", { ignore: GLOBALLY_AVAILABLE_PACKAGES }],
+	"import/namespace": "off",
     // There's a conflict with prettier here:
     "react/jsx-curly-spacing": "off",
     // Skip prop types validation for now
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/self-closing-comp": "error",
+	"react-hooks/exhaustive-deps": "off",
     // JSDoc rules overrides
     "jsdoc/require-returns": "off",
     "jsdoc/require-param": "off",
     // Deprecated rules
     "jsx-a11y/no-onchange": "off",
-    // For TypeScript type declarations.
-    camelcase: "off",
     "@typescript-eslint/no-empty-function": "off",
     // Fail on unused vars.
     "@typescript-eslint/no-unused-vars": "error",
@@ -61,5 +70,6 @@ module.exports = {
     // See https://github.com/typescript-eslint/typescript-eslint/issues/2483
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "error",
+	"@typescript-eslint/ban-ts-comment": "warn",
   },
 };

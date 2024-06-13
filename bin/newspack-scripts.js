@@ -12,6 +12,7 @@ if (
     "watch",
     "commit",
     "commitlint",
+	"eslint",
     "release",
     "typescript-check",
   ].includes(scriptName)

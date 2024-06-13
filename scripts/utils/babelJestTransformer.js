@@ -6,8 +6,7 @@ module.exports = babelJest.createTransformer({
   presets: [
     require.resolve("@babel/preset-env"),
     require.resolve("@babel/preset-typescript"),
-    require.resolve("@automattic/calypso-build/babel/default"),
-    require.resolve("@automattic/calypso-build/babel/wordpress-element"),
+    require.resolve("@wordpress/babel-preset-default"),
   ],
   babelrc: false,
   configFile: false,

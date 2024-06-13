@@ -1,7 +1,5 @@
 "use strict";
 
-const spawn = require("cross-spawn");
-const path = require("path");
 const utils = require("./utils/index.js");
 
 const semanticRelease = require("semantic-release");
