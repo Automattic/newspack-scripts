@@ -52,7 +52,7 @@
 		"postcss-focus-within": "^5.0.4",
 		"postcss-scss": "^4.0.9",
 		"prettier": "^3.3.2",
-		"semantic-release": "^24.0.0",
+		"semantic-release": "^19.0.5",
 		"semantic-release-version-bump": "^1.4.1",
 		"stylelint": "^14.16.1",
 		"stylelint-config-standard": "^30.0.1",
