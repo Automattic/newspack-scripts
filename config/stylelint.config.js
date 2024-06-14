@@ -26,5 +26,7 @@ module.exports = {
 				ignoreAnnotations: [ '/default/' ],
 			},
 		],
+		'media-query-no-invalid': null,
+		'media-feature-range-notation': null,
 	},
 };

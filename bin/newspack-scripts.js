@@ -13,6 +13,7 @@ if (
 		'commit',
 		'commitlint',
 		'eslint',
+		'stylelint',
 		'release',
 		'typescript-check',
 	].includes( scriptName )

@@ -54,10 +54,14 @@
 		"prettier": "^3.3.2",
 		"semantic-release": "^19.0.5",
 		"semantic-release-version-bump": "^1.4.1",
-		"stylelint": "^14.16.1",
-		"stylelint-config-standard": "^30.0.1",
+		"stylelint": "^16.6.1",
+		"stylelint-config-standard": "^36.0.0",
 		"typescript": "^5.4.5",
 		"yargs": "^17.7.2"
+	},
+	"overrides": {
+		"history": "4.9.0",
+		"path-to-regexp": "1.7.0"
 	},
 	"scripts": {
 		"semantic-release": "semantic-release"
