@@ -7,7 +7,9 @@ const wpScripts = require.resolve( '@wordpress/scripts/bin/wp-scripts' );
 
 utils.log( 'Starting to build…' );
 
-const buildResult = spawn.sync( wpScripts, modules.args( 'build' ), {
+const args = process.argv.slice( 2 );
+
+const buildResult = spawn.sync( wpScripts, modules.args( 'build', args ), {
 	cwd: modules.rootDirectory,
 	stdio: 'inherit',
 	env: { ...process.env, NODE_ENV: 'production' },

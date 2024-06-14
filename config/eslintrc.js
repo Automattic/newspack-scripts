@@ -34,7 +34,7 @@ module.exports = {
 			},
 		},
 	},
-	ignorePatterns: [ 'dist/', 'node_modules/' ],
+	ignorePatterns: [ 'dist/', 'node_modules/', 'scripts/' ],
 	parser: '@typescript-eslint/parser',
 	rules: {
 		'arrow-parens': 'off',

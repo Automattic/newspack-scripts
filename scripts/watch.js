@@ -7,7 +7,9 @@ const wpScripts = require.resolve( '@wordpress/scripts/bin/wp-scripts' );
 
 utils.log( 'Starting to watch…' );
 
-spawn.sync( wpScripts, modules.args( 'start' ), {
+const args = process.argv.slice( 2 );
+
+spawn.sync( wpScripts, modules.args( 'start', args ), {
 	cwd: modules.rootDirectory,
 	stdio: 'inherit',
 	env: { ...process.env, NODE_ENV: 'development' },
