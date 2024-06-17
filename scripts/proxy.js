@@ -22,7 +22,7 @@ const result = spawn.sync(
 	{
 		cwd: modules.rootDirectory,
 		stdio: 'inherit',
-		env: { ...process.env, NODE_ENV: 'production' },
+		env: { ...process.env, NODE_ENV: 'semantic-release' === cmd ? 'production' : 'development' },
 	}
 );
 
