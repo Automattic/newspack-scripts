@@ -5,15 +5,16 @@
  * Usage: newspack-scripts proxy <command> [args]
  */
 
+const path = require( 'path' );
 const spawn = require( 'cross-spawn' );
 const modules = require( './utils/modules' );
 const utils = require( './utils/index.js' );
 
 const args = process.argv.slice( 2 );
 const dependency = args.shift();
-const cmd = require.resolve( `${ dependency }/bin/${ dependency }` );
+const cmd = path.resolve( __dirname, `../node_modules/.bin/${ dependency }` );
 
-utils.log( `Running ${ dependency }…` );
+utils.log( `Running command: ${ dependency } ${ args.join( ' ' ) }` );
 
 const result = spawn.sync(
 	cmd,
