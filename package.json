@@ -61,7 +61,10 @@
 	},
 	"overrides": {
 		"@eslint/eslintrc": {
-			"ajv": "6.12.6"
+			"ajv": "^6.0.0"
+		},
+		"terser-webpack-plugin": {
+			"ajv": "^6.0.0"
 		},
 		"history": "4.9.0",
 		"path-to-regexp": "1.7.0"
