@@ -15,11 +15,11 @@ Will run `jest` tests. Useful flags:
 
 ### build
 
-Will run `calypso-build`, creating optimised production builds.
+Will run `wp-scripts build` to create optimised production builds.
 
 ### watch
 
-Will run `calypso-build` in watch mode.
+Will run `wp-scripts start` to start a development build in devserver/watch mode.
 
 ### commit
 
@@ -46,6 +46,15 @@ Will validate TypeScript code in the project. This requires a `tsconfig.json` fi
   "include": ["src"]
 }
 ```
+
+### proxy
+
+Allows you to proxy NPM CLI commands through this repository's dependencies, so if a repository consumes the `newspack-scripts` NPM package, it can access any executables installed as a dependency in [package.json](https://github.com/Automattic/newspack-scripts/blob/trunk/package.json). e.g. `newspack-scripts proxy semantic-release --dry-run` will run `semantic-release --dry-run` but using the executable from `newspack-scripts` instead of whatever repository you're running the command from. This allows for more flexible use of NPM commands where the prefab configs and scripts this repo provides are too opinionated or aren't sufficient.
+
+Other examples:
+
+- `newspack-scripts proxy eslint 'src/**/*.{js,jsx,ts,tsx}'` will lint all JS/JSX/TS/TSX files inside the `./src` directory.
+- `newspack-scripts proxy stylelint 'src/**/*.scss'` will lint all SCSS files inside the `./src` directory.
 
 ---
 
@@ -154,10 +163,10 @@ module.exports = {
 
 ### stylelint
 
-Install `stylelint` via npm and reference this package's config file when running it, e.g.:
+Use this package's stylelint executable and config file when running it, e.g.:
 
 ```shell
-stylelint '**/*.scss' --syntax scss --config=./node_modules/newspack-scripts/config/stylelint.config.js
+newspack-scripts proxy stylelint '**/*.scss' --customSyntax postcss-scss --config=./node_modules/newspack-scripts/config/stylelint.config.js
 ```
 
 _Note: Due to issue with dependency resolving, you might end up a different version of `prettier` in project's `node_modules` and `node_modules/newspack-scripts/node_modules`. See https://github.com/Automattic/newspack-scripts/issues/1 for more information._
@@ -207,4 +216,4 @@ Note that before the first time updating you'll need to set the API key for Circ
 
 ### `@wordpress/*` packages
 
-This project list [`@wordpress/*` packages](https://github.com/WordPress/gutenberg/tree/trunk/packages) as dependencies in order to provide them to consumers. In a project using `calypso-build` (e.g. a consumer of `newspack-scripts`), the `@wordpress/*` packages are sourced from WP Core, not `node_modules`. The packages should be included in `node_modules`, though, to be available in other environments – notably when running tests. See [Dependency Extraction Webpack Plugin](https://www.npmjs.com/package/@wordpress/dependency-extraction-webpack-plugin) for more information.
+This project list [`@wordpress/*` packages](https://github.com/WordPress/gutenberg/tree/trunk/packages) as dependencies in order to provide them to consumers. In a project using `@wordpress/scripts` (e.g. a consumer of `newspack-scripts`), the `@wordpress/*` packages are sourced from WP Core, not `node_modules`. The packages should be included in `node_modules`, though, to be available in other environments – notably when running tests. See [Dependency Extraction Webpack Plugin](https://www.npmjs.com/package/@wordpress/dependency-extraction-webpack-plugin) for more information.

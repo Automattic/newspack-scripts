@@ -1,9 +1,7 @@
 const wpRecommended = require.resolve( '@wordpress/eslint-plugin/configs/recommended' );
 const reactRecommended = require.resolve( '@wordpress/eslint-plugin/configs/react' );
-// const tsRecommended = require.resolve( '@typescript-eslint/eslint-plugin/dist/configs/recommended' );
-// const tsESLintRecommended = require.resolve( '@typescript-eslint/eslint-plugin/dist/configs/eslint-recommended' );
 
-// Assume `@wordpress/*` packages are available. This is because `calypso-build` is using
+// Assume `@wordpress/*` packages are available. This is because `@wordpress/scripts` is using
 // Dependency Extraction Webpack Plugin to use core WP packages instead of those from
 // node_modules. The packages should still be part of the project (they are listed in this
 // project's package.json) so that they are available in testing environment.
@@ -34,7 +32,7 @@ module.exports = {
 			},
 		},
 	},
-	ignorePatterns: [ 'dist/', 'node_modules/' ],
+	ignorePatterns: [ 'dist/', 'node_modules/', 'scripts/' ],
 	parser: '@typescript-eslint/parser',
 	rules: {
 		'arrow-parens': 'off',

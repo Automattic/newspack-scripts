@@ -12,7 +12,7 @@ module.exports = ( ...args ) => {
 
 	// Ensure that webpack resolves modules from the Newspack Scripts node_modules as well as the root repo's node_modules.
 	config.resolve.modules = [
-		path.resolve( 'node_modules/newspack-scripts/node_modules' ),
+		path.resolve( __dirname, '../node_modules' ),
 		'node_modules',
 	];
 
