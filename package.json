@@ -36,7 +36,9 @@
 		"@wordpress/icons": "^10.0.0",
 		"@wordpress/keycodes": "^4.0.0",
 		"@wordpress/plugins": "^7.0.0",
-		"@wordpress/scripts": "^28.0.0",
+		"@wordpress/prettier-config": "^4.1.0",
+		"@wordpress/scripts": "^28.1.0",
+		"@wordpress/stylelint-config": "^22.1.0",
 		"@wordpress/url": "^4.0.0",
 		"autoprefixer": "^10.4.19",
 		"commitizen": "^4.3.0",
@@ -54,8 +56,6 @@
 		"prettier": "^3.3.2",
 		"semantic-release": "^19.0.5",
 		"semantic-release-version-bump": "^1.4.1",
-		"stylelint": "^16.6.1",
-		"stylelint-config-standard": "^36.0.0",
 		"typescript": "^5.4.5",
 		"yargs": "^17.7.2"
 	},
@@ -81,5 +81,6 @@
 	},
 	"browserslist": [
 		"extends @wordpress/browserslist-config"
-	]
+	],
+	"prettier": "@wordpress/prettier-config"
 }

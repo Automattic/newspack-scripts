@@ -1,5 +1,7 @@
 module.exports = {
-	extends: [ 'stylelint-config-standard' ],
+	extends: [
+		'@wordpress/stylelint-config',
+	],
 	rules: {
 		'rule-empty-line-before': null,
 		'at-rule-empty-line-before': null,
@@ -26,7 +28,6 @@ module.exports = {
 				ignoreAnnotations: [ '/default/' ],
 			},
 		],
-		'media-query-no-invalid': null,
 		'media-feature-range-notation': null,
 	},
 };

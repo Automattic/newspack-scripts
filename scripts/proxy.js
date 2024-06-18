@@ -12,9 +12,9 @@ const utils = require( './utils/index.js' );
 
 const args = process.argv.slice( 2 );
 const dependency = args.shift();
-const cmd = path.resolve( __dirname, `../node_modules/.bin/${ dependency }` );
+const cmd = require.resolve( path.resolve( __dirname, `../node_modules/.bin/${ dependency }` ) );
 
-utils.log( `Running command: ${ dependency } ${ args.join( ' ' ) }` );
+utils.log( `Running command: ${ dependency } ${ args.join( ' ' ) }` );;
 
 const result = spawn.sync(
 	cmd,

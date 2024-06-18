@@ -32,14 +32,12 @@ module.exports = {
 			},
 		},
 	},
-	ignorePatterns: [ 'dist/', 'node_modules/', 'scripts/' ],
-	parser: '@typescript-eslint/parser',
+	ignorePatterns: [ 'dist/', 'node_modules/', 'release/', 'scripts/' ],
 	rules: {
 		'arrow-parens': 'off',
 		camelcase: 'off',
 		'no-console': 'off',
 		'no-mixed-operators': 'off',
-		'space-before-function-paren': 'off',
 		'wrap-iife': 'off',
 		// Some dependencies are injected by WP, and should not be declared in package.json (won't be used anyway).
 		// See https://github.com/WordPress/gutenberg/blob/e035f71/packages/dependency-extraction-webpack-plugin/README.md#behavior-with-scripts
@@ -70,5 +68,6 @@ module.exports = {
 		'@typescript-eslint/no-shadow': 'error',
 		'@typescript-eslint/ban-ts-comment': 'warn',
 		'@typescript-eslint/no-explicit-any': 'warn',
+		'prettier/prettier': 'off',
 	},
 };
