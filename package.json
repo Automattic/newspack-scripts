@@ -38,7 +38,6 @@
 		"@wordpress/plugins": "^7.0.0",
 		"@wordpress/scripts": "^28.0.0",
 		"@wordpress/url": "^4.0.0",
-		"ajv": "^8.16.0",
 		"autoprefixer": "^10.4.19",
 		"commitizen": "^4.3.0",
 		"cross-spawn": "^7.0.3",
@@ -61,12 +60,6 @@
 		"yargs": "^17.7.2"
 	},
 	"overrides": {
-		"@eslint/eslintrc": {
-			"ajv": "^6.0.0"
-		},
-		"terser-webpack-plugin": {
-			"ajv": "^6.0.0"
-		},
 		"history": "4.9.0",
 		"path-to-regexp": "1.7.0"
 	},
