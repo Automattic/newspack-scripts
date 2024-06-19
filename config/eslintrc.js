@@ -32,7 +32,7 @@ module.exports = {
 			},
 		},
 	},
-	ignorePatterns: [ 'dist/', 'node_modules/', 'release/', 'scripts/' ],
+	ignorePatterns: [ 'dist/', 'node_modules/', 'release/', 'scripts/', '/vendor' ],
 	rules: {
 		'arrow-parens': 'off',
 		camelcase: 'off',
