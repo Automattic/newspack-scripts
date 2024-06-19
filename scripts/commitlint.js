@@ -2,9 +2,10 @@
 
 const spawn = require( 'cross-spawn' );
 const path = require( 'path' );
+const commitlint = require.resolve( '@commitlint/cli/cli' );
 
 const result = spawn.sync(
-	`${ process.cwd() }/node_modules/.bin/commitlint`,
+	commitlint,
 	[ '--config', path.resolve( __dirname, '../config/commitlint.config.js' ) ],
 	{
 		stdio: 'inherit',

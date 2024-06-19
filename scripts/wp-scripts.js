@@ -5,18 +5,19 @@ const modules = require( './utils/modules' );
 const utils = require( './utils/index.js' );
 const wpScripts = require.resolve( '@wordpress/scripts/bin/wp-scripts' );
 
-utils.log( 'Starting to build…' );
-
 const args = process.argv.slice( 2 );
+const cmd = args.shift();
 
-const buildResult = spawn.sync( wpScripts, modules.args( 'build', args ), {
+utils.log( `Running ${ cmd }...` );
+
+const result = spawn.sync( wpScripts, modules.buildArgs( cmd, args ), {
 	cwd: modules.rootDirectory,
 	stdio: 'inherit',
-	env: { ...process.env, NODE_ENV: 'production' },
+	env: { ...process.env, NODE_ENV: 'build' === cmd ? 'production' : 'development' },
 } );
 
-if ( buildResult.status === 0 ) {
-	utils.log( 'Build succeeded!' );
+if ( result.status === 0 ) {
+	utils.log( `${ cmd } complete!` );
 }
 
-process.exit( buildResult.status );
+process.exit( result.status );

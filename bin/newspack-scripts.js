@@ -8,15 +8,12 @@ const [ scriptName, ...nodeArgs ] = process.argv.slice( 2 );
 if (
 	[
 		'test',
-		'build',
-		'watch',
 		'commit',
 		'commitlint',
-		'eslint',
-		'proxy',
-		'stylelint',
 		'release',
+		'semantic-release',
 		'typescript-check',
+		'wp-scripts',
 	].includes( scriptName )
 ) {
 	const result = spawn.sync(
