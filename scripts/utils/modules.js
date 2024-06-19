@@ -4,18 +4,22 @@ const rootDirectory = fs.realpathSync( process.cwd() );
 
 module.exports = {
 	rootDirectory,
-	args: ( cmd, opts = [] ) => {
+	// Get webpack bundle args for `build` and `start` commands.
+	buildArgs: ( cmd, args = [] ) => {
+		if ( 'build' !== cmd && 'start' !== cmd ) {
+			return [ cmd, ...args ];
+		}
+
 		const defaults = [
-			cmd,
 			'--config',
 			'webpack.config.js',
 		];
 
 		// Default build path: ./dist
-		if ( ! opts.includes( '--output-path' ) ) {
+		if ( ! args.includes( '--output-path' ) ) {
 			defaults.push( '--output-path', 'dist' );
 		}
 
-		return [ ...defaults, ...opts ];
+		return [ cmd, ...defaults, ...args ];
 	},
 };

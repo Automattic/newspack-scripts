@@ -1,13 +1,12 @@
 'use strict';
 
 const spawn = require( 'cross-spawn' );
-const path = require( 'path' );
-const modules = require( './utils/modules' );
 const utils = require( './utils/index.js' );
+const tsc = require.resolve( 'typescript/bin/tsc' );
 
 utils.log( 'Starting TypeScript check…' );
 
-const result = spawn.sync( `${ process.cwd() }/node_modules/.bin/tsc`, [], {
+const result = spawn.sync( tsc, [], {
 	stdio: 'inherit',
 } );
 
