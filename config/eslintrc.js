@@ -1,14 +1,19 @@
 const wpRecommended = require.resolve( '@wordpress/eslint-plugin/configs/recommended' );
 const reactRecommended = require.resolve( '@wordpress/eslint-plugin/configs/react' );
 
-// Assume `@wordpress/*` packages are available. This is because `@wordpress/scripts` is using
-// Dependency Extraction Webpack Plugin to use core WP packages instead of those from
-// node_modules. The packages should still be part of the project (they are listed in this
-// project's package.json) so that they are available in testing environment.
-// More on this:
-// - https://www.npmjs.com/package/@wordpress/dependency-extraction-webpack-plugin
-// - https://github.com/WordPress/gutenberg/issues/35630
-const GLOBALLY_AVAILABLE_PACKAGES = [ '@wordpress/.*' ];
+/**
+ *  Assume `@wordpress/*` packages are available. This is because `@wordpress/scripts` is using
+ * Dependency Extraction Webpack Plugin to use core WP packages instead of those from
+ * node_modules. The packages should still be part of the project (they are listed in this
+ * project's package.json) so that they are available in testing environment.
+ *
+ * More on this:
+ * - https: *www.npmjs.com/package/@wordpress/dependency-extraction-webpack-plugin
+ * - https: *github.com/WordPress/gutenberg/issues/35630
+ *
+ * React is also included here as it's a peer dependency of @wordpress/scripts.
+ */
+const GLOBALLY_AVAILABLE_PACKAGES = [ '@wordpress/.*', 'react' ];
 
 module.exports = {
 	extends: [
@@ -16,8 +21,8 @@ module.exports = {
 		'plugin:import/warnings',
 		'plugin:@typescript-eslint/eslint-recommended',
 		'plugin:@typescript-eslint/recommended',
-		wpRecommended,
 		reactRecommended,
+		wpRecommended,
 	],
 	env: {
 		browser: true,
@@ -36,7 +41,8 @@ module.exports = {
 	rules: {
 		'arrow-parens': 'off',
 		camelcase: 'off',
-		'no-console': 'off',
+		// Disallow logging.
+		'no-console': 'error',
 		'no-mixed-operators': 'off',
 		'wrap-iife': 'off',
 		// Some dependencies are injected by WP, and should not be declared in package.json (won't be used anyway).
@@ -60,14 +66,12 @@ module.exports = {
 		'@typescript-eslint/no-empty-function': 'off',
 		// Fail on unused vars.
 		'@typescript-eslint/no-unused-vars': 'error',
-		// Disallow logging.
-		'no-console': 'error',
 		// Handle the issue where no-shadow is a false positive when declaring TS enums.
 		// See https://github.com/typescript-eslint/typescript-eslint/issues/2483
 		'no-shadow': 'off',
 		'@typescript-eslint/no-shadow': 'error',
 		'@typescript-eslint/ban-ts-comment': 'warn',
 		'@typescript-eslint/no-explicit-any': 'warn',
-		'prettier/prettier': 'off',
+		'prettier/prettier': 'off', // We're mainly concerned about code quality rules, not formatting. npm run format:js can be used to reformat JS if desired.
 	},
 };
