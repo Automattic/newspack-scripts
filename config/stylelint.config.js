@@ -29,5 +29,6 @@ module.exports = {
 			},
 		],
 		'media-feature-range-notation': null,
+		'max-line-length': null,
 	},
 };
