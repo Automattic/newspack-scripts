@@ -154,10 +154,8 @@ module.exports = {
 
 ### stylelint
 
-Use this package's stylelint executable and config file when running it, e.g.:
-
 ```shell
-newspack-scripts proxy stylelint '**/*.scss' --customSyntax postcss-scss --config=./node_modules/newspack-scripts/config/stylelint.config.js
+newspack-scripts wp-scripts lint-style '**/*.scss' --customSyntax postcss-scss
 ```
 
 _Note: Due to issue with dependency resolving, you might end up a different version of `prettier` in project's `node_modules` and `node_modules/newspack-scripts/node_modules`. See https://github.com/Automattic/newspack-scripts/issues/1 for more information._
