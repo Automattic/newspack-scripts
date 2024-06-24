@@ -64,6 +64,7 @@
     "webpack-cli": "^5.1.4"
   },
   "overrides": {
+    "react": "18.3.1",
     "@emotion/utils": "1.2.0"
   },
   "scripts": {
