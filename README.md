@@ -46,16 +46,6 @@ Will validate TypeScript code in the project. This requires a `tsconfig.json` fi
   "include": ["src"]
 }
 ```
-
-### proxy
-
-Allows you to proxy NPM CLI commands through this repository's dependencies, so if a repository consumes the `newspack-scripts` NPM package, it can access any executables installed as a dependency in [package.json](https://github.com/Automattic/newspack-scripts/blob/trunk/package.json). e.g. `newspack-scripts proxy semantic-release --dry-run` will run `semantic-release --dry-run` but using the executable from `newspack-scripts` instead of whatever repository you're running the command from. This allows for more flexible use of NPM commands where the prefab configs and scripts this repo provides are too opinionated or aren't sufficient.
-
-Other examples:
-
-- `newspack-scripts proxy eslint 'src/**/*.{js,jsx,ts,tsx}'` will lint all JS/JSX/TS/TSX files inside the `./src` directory.
-- `newspack-scripts proxy stylelint 'src/**/*.scss'` will lint all SCSS files inside the `./src` directory.
-
 ---
 
 ## Semantic Release
