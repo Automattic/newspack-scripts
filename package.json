@@ -66,6 +66,9 @@
   "scripts": {
     "semantic-release": "semantic-release"
   },
+  "overrides": {
+    "ajv": "8.16.0"
+  },
   "release": {
     "branches": [
       "trunk",
