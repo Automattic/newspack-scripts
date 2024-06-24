@@ -46,6 +46,7 @@ Will validate TypeScript code in the project. This requires a `tsconfig.json` fi
   "include": ["src"]
 }
 ```
+
 ---
 
 ## Semantic Release
