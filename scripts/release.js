@@ -18,8 +18,22 @@ if ( shouldPublishOnNPM ) {
 	utils.log( `Will publish on npm` );
 }
 
-const getConfig = ( { gitBranchName } ) => {
-	const branchType = gitBranchName.split( '/' )[ 0 ];
+const getConfig = ({ gitBranchName }) => {
+	const branchType = gitBranchName.split("/")[0];
+	const githubConfig = {
+		assets: [
+			{
+				path: `./release/${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
+				label: `${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
+			},
+		],
+	};
+
+	// Only post GH PR comments for alpha, hotfix/*, and release branches.
+	if ( ! ["alpha", "hotfix", "release"].includes(branchType) ) {
+		githubConfig.successComment = false;
+		githubConfig.failComment = false;
+	}
 
 	const config = {
 		dryRun: otherArgs.dryRun,
@@ -28,52 +42,43 @@ const getConfig = ( { gitBranchName } ) => {
 
 		branches: [
 			// `release` branch is published on the main distribution channel (a new version on GH).
-			'release',
+			"release",
 			// `alpha` branch – for regular pre-releases.
 			{
-				name: 'alpha',
+				name: "alpha",
 				prerelease: true,
 			},
 			// `hotfix/*` branches – for releases outside of the release schedule.
 			{
-				name: 'hotfix/*',
+				name: "hotfix/*",
 				// With `prerelease: true`, the `name` would be used for the pre-release tag. A name with a `/`
 				// is not valid, though. See https://semver.org/#spec-item-9.
 				prerelease: '${name.replace(/\\//g, "-")}',
 			},
 			// `epic/*` branches – for beta testing/QA pre-release builds.
 			{
-				name: 'epic/*',
+				name: "epic/*",
 				// With `prerelease: true`, the `name` would be used for the pre-release tag. A name with a `/`
 				// is not valid, though. See https://semver.org/#spec-item-9.
 				prerelease: '${name.replace(/\\//g, "-")}',
 			},
 		],
-		prepare: [ '@semantic-release/changelog', '@semantic-release/npm' ],
+		prepare: ["@semantic-release/changelog", "@semantic-release/npm"],
 		plugins: [
-			'@semantic-release/commit-analyzer',
-			'@semantic-release/release-notes-generator',
+			"@semantic-release/commit-analyzer",
+			"@semantic-release/release-notes-generator",
 			[
 				// Whether to publish on npm.
-				'@semantic-release/npm',
+				"@semantic-release/npm",
 				{
 					npmPublish: shouldPublishOnNPM,
 				},
 			],
-			'semantic-release-version-bump',
+			"semantic-release-version-bump",
 			// Add the built ZIP archive to GH release.
 			[
-				'@semantic-release/github',
-				{
-					assets: [
-						{
-							path: `./release/${ process.env.CIRCLE_PROJECT_REPONAME }.zip`,
-							label: `${ process.env.CIRCLE_PROJECT_REPONAME }.zip`,
-						},
-					],
-					// Only post GH PR comments for alpha, hotfix/*, and release branches.
-					successComment: [ 'alpha', 'hotfix', 'release' ].includes( branchType ),
-				},
+				"@semantic-release/github",
+				githubConfig,
 			],
 		],
 	};
@@ -109,7 +114,7 @@ const getConfig = ( { gitBranchName } ) => {
 			path: '@semantic-release/git',
 			assets,
 			message:
-        'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
+				'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
 		} );
 	} else {
 		utils.log(
