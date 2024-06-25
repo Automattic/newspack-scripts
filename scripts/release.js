@@ -22,6 +22,20 @@ if (shouldPublishOnNPM) {
 
 const getConfig = ({ gitBranchName }) => {
   const branchType = gitBranchName.split("/")[0];
+  const githubConfig = {
+    assets: [
+      {
+        path: `./release/${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
+        label: `${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
+      },
+    ],
+  };
+
+  // Only post GH PR comments for alpha, hotfix/*, and release branches.
+  if ( ! ["alpha", "hotfix", "release"].includes(branchType) ) {
+    githubConfig.successComment = false;
+	githubConfig.failComment = false;
+  }
 
   const config = {
     dryRun: otherArgs.dryRun,
@@ -66,16 +80,7 @@ const getConfig = ({ gitBranchName }) => {
       // Add the built ZIP archive to GH release.
       [
         "@semantic-release/github",
-        {
-          assets: [
-            {
-              path: `./release/${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
-              label: `${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
-            },
-          ],
-          // Only post GH PR comments for alpha, hotfix/*, and release branches.
-          successComment: ["alpha", "hotfix", "release"].includes(branchType),
-        },
+        githubConfig,
       ],
     ],
   };
