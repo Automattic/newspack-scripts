@@ -6,12 +6,11 @@ Scripts for Newspack, heavily inspired by [`react-scripts`](https://github.com/f
 
 ## Available scripts
 
-### test
+Repos consuming the `newspack-scripts` package can use the following NPM scripts. Prefix each at the command line with `npm run` (or [`bun run`](https://bun.sh/)) to execute.
 
-Will run `jest` tests. Useful flags:
+### start
 
-- `--watch` to run in file watch mode,
-- `--coverage` to collect test coverage
+Execute with `npm start`. This is the only script you run without the `run` prefix. This will install Composer and NPM dependencies, then run the `watch` command to start a development build. Best used when cloning a repo for the first time, or when you need to restore a locally cloned repo to a fresh state.
 
 ### build
 
@@ -20,6 +19,33 @@ Will run `wp-scripts build` to create optimised production builds.
 ### watch
 
 Will run `wp-scripts start` to start a development build in devserver/watch mode.
+
+### lint:js, lint:scss, lint
+
+Will run `wp-scripts lint-js`, `wp-scripts lint-style`, or both. See the [`@wordpress/scripts` handbook](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) for implementation details and additional options.
+
+### fix:js
+
+Will run `wp-scripts lint-js --fix`, allowing ESLint to correct any autofixable code quality errors it finds. Note that code quality errors are separate from formatting, which is handled by `format:js` (see below).
+
+### format:js
+
+Will run `wp-scripts format-js` to reformat JS files according to [Prettier](https://prettier.io/) rules. Note that formatting is separate from code quality errors, which are handled by `fix:js` (see above).
+
+### format:scss
+
+Will run `wp-scripts lint-style --fix` to reformat SCSS files according to [Stylelint](https://stylelint.io/) rules.
+
+### test
+
+Will run `jest` tests. Useful flags:
+
+- `--watch` to run in file watch mode,
+- `--coverage` to collect test coverage
+
+### lint:php, fix:php
+
+Will run `phpcs` or `phpcbf` to lint or autofix PHP files, respectively. Note that you must install these PHP packages via `composer install` or `npm start` before you can use these locally.
 
 ### commit
 
@@ -39,11 +65,15 @@ Will validate TypeScript code in the project. This requires a `tsconfig.json` fi
 
 ```json
 {
-  "extends": "newspack-scripts/config/tsconfig.json",
-  "compilerOptions": {
-    "rootDir": "src"
-  },
-  "include": ["src"]
+	"extends": "newspack-scripts/config/tsconfig.json",
+	"compilerOptions": {
+		"rootDir": "src",
+		"jsx": "react-jsx"
+	},
+	"include": [
+		"src",
+		"src/**/*.json"
+	]
 }
 ```
 
@@ -115,12 +145,11 @@ The `webpack.config.js` file should use this package's config-extending function
 const getBaseWebpackConfig = require("newspack-scripts/config/getWebpackConfig");
 
 const webpackConfig = getBaseWebpackConfig(
-  { WP: true },
-  {
-    entry: {
-      "some-script": "./src/some-script.js",
-    },
-  }
+	{
+		entry: {
+			'output-file': './src/entrypoint-file.js',
+		},
+	}
 );
 
 module.exports = webpackConfig;
@@ -131,34 +160,69 @@ module.exports = webpackConfig;
 A basic `babel.config.js`:
 
 ```js
-module.exports = (api) => {
-  api.cache(true);
-  return {
-    extends: "newspack-scripts/config/babel.config.js",
-  };
+module.exports = api => {
+	api.cache( true );
+	return {
+		extends: 'newspack-scripts/config/babel.config.js',
+	};
 };
 ```
 
-### eslint
+### ESLint
 
-Because of eslint's [issue](https://github.com/eslint/eslint/issues/3458) with resolving dependencies of extended configurations, a patch has to be used to use this config in a stand-alone fashion: install `@rushstack/eslint-patch` and set up the `.eslintrc.js` like so:
+`@wordpress/scripts` uses ESLint under the hood for JS code quality linting. Note that this is separate from code formatting, which is handled by Prettier (see below).
+
+Because of ESLint's [issue](https://github.com/eslint/eslint/issues/3458) with resolving dependencies of extended configurations, a patch has to be used to use this config in a stand-alone fashion: install `@rushstack/eslint-patch` and set up the `.eslintrc.js` like so:
 
 ```js
-require("@rushstack/eslint-patch/modern-module-resolution");
+require( '@rushstack/eslint-patch/modern-module-resolution' );
 
 module.exports = {
-  extends: ["./node_modules/newspack-scripts/config/eslintrc.js"],
-  // Additional options…
+	extends: [ './node_modules/newspack-scripts/config/eslintrc.js' ],
+	// Additional options…
 };
+```
+
+### Prettier
+
+`@wordpress/scripts` uses [Prettier](https://prettier.io/) under the hood for JS formatting. Note that this is separate from code quality, which is handled by ESLint (see above).
+
+To configure Prettier rules, extend this repo's config by creating a `.prettierrc.js` file like so:
+
+```js
+const baseConfig = require( './node_modules/newspack-scripts/config/prettier.config.js' );
+
+module.exports = {
+	...baseConfig,
+	// Additional options…
+};
+```
+
+You should also include a [`.prettierignore` file](https://prettier.io/docs/en/ignore.html) to tell Prettier which files and directories it should ignore, using [gitignore syntax](https://git-scm.com/docs/gitignore#_pattern_format):
+
+```
+dist
+node_modules
+release
+vendor
 ```
 
 ### stylelint
+
+`@wordpress/scripts` uses [Stylelint](https://stylelint.io/) under the hood for SCSS linting and formatting.
 
 ```shell
 newspack-scripts wp-scripts lint-style '**/*.scss' --customSyntax postcss-scss
 ```
 
-_Note: Due to issue with dependency resolving, you might end up a different version of `prettier` in project's `node_modules` and `node_modules/newspack-scripts/node_modules`. See https://github.com/Automattic/newspack-scripts/issues/1 for more information._
+Extend this repo's config with a `.stylelintrc.js` file like so:
+
+```js
+module.exports = {
+	extends: [ './node_modules/newspack-scripts/config/stylelint.config.js' ],
+	// Additional options…
+};
+```
 
 ### TypeScript
 
@@ -205,4 +269,4 @@ Note that before the first time updating you'll need to set the API key for Circ
 
 ### `@wordpress/*` packages
 
-This project list [`@wordpress/*` packages](https://github.com/WordPress/gutenberg/tree/trunk/packages) as dependencies in order to provide them to consumers. In a project using `@wordpress/scripts` (e.g. a consumer of `newspack-scripts`), the `@wordpress/*` packages are sourced from WP Core, not `node_modules`. The packages should be included in `node_modules`, though, to be available in other environments – notably when running tests. See [Dependency Extraction Webpack Plugin](https://www.npmjs.com/package/@wordpress/dependency-extraction-webpack-plugin) for more information.
+This project lists [`@wordpress/*` packages](https://github.com/WordPress/gutenberg/tree/trunk/packages) as dependencies in order to provide them to consumers. In a project using `@wordpress/scripts` (e.g. a consumer of `newspack-scripts`), the `@wordpress/*` packages are sourced from WP Core, not `node_modules`. The packages should be included in `node_modules`, though, to be available in other environments – notably when running tests. See [Dependency Extraction Webpack Plugin](https://www.npmjs.com/package/@wordpress/dependency-extraction-webpack-plugin) for more information.
