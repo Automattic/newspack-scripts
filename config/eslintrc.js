@@ -1,5 +1,9 @@
-const wpRecommended = require.resolve( '@wordpress/eslint-plugin/configs/recommended' );
-const reactRecommended = require.resolve( '@wordpress/eslint-plugin/configs/react' );
+const wpRecommended = require.resolve(
+	'@wordpress/eslint-plugin/configs/recommended'
+);
+const reactRecommended = require.resolve(
+	'@wordpress/eslint-plugin/configs/react'
+);
 
 /**
  *  Assume `@wordpress/*` packages are available. This is because `@wordpress/scripts` is using
@@ -37,7 +41,13 @@ module.exports = {
 			},
 		},
 	},
-	ignorePatterns: [ 'dist/', 'node_modules/', 'release/', 'scripts/', '/vendor' ],
+	ignorePatterns: [
+		'dist/',
+		'node_modules/',
+		'release/',
+		'scripts/',
+		'/vendor',
+	],
 	rules: {
 		'arrow-parens': 'off',
 		camelcase: 'off',
@@ -49,7 +59,10 @@ module.exports = {
 		// See https://github.com/WordPress/gutenberg/blob/e035f71/packages/dependency-extraction-webpack-plugin/README.md#behavior-with-scripts
 		// Unfortunately there's no "ignore" option for this rule, so it's disabled altogether.
 		'import/no-extraneous-dependencies': 'off',
-		'import/no-unresolved': [ 'error', { ignore: GLOBALLY_AVAILABLE_PACKAGES } ],
+		'import/no-unresolved': [
+			'error',
+			{ ignore: GLOBALLY_AVAILABLE_PACKAGES },
+		],
 		'import/namespace': 'off',
 		// There's a conflict with prettier here:
 		'react/jsx-curly-spacing': 'off',
@@ -72,6 +85,5 @@ module.exports = {
 		'@typescript-eslint/no-shadow': 'error',
 		'@typescript-eslint/ban-ts-comment': 'warn',
 		'@typescript-eslint/no-explicit-any': 'warn',
-		'prettier/prettier': 'off', // We're mainly concerned about code quality rules, not formatting. npm run format:js can be used to reformat JS if desired.
 	},
 };
