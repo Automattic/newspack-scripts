@@ -45,8 +45,10 @@ const JEST_CONFIG = {
 
 args.push( '--config', JSON.stringify( JEST_CONFIG ) );
 
-spawn.sync( wpScripts, args, {
+const result = spawn.sync( wpScripts, args, {
 	cwd: modules.rootDirectory,
 	stdio: 'inherit',
 	env: { ...process.env, NODE_ENV: 'development' },
 } );
+
+process.exit(result.status);
