@@ -28,23 +28,34 @@ steps:
       command: |
         # Theme is excluded, more in https://github.com/Automattic/newspack-theme/pull/2458
         if [ "$CIRCLE_PROJECT_REPONAME" = "newspack-theme" ]; then
+          cd ./newspack-theme
           wp i18n make-pot . languages/${CIRCLE_PROJECT_REPONAME}.pot --exclude='src' --domain=${CIRCLE_PROJECT_REPONAME}
+          cd -
         else
           wp i18n make-pot . languages/${CIRCLE_PROJECT_REPONAME}.pot --domain=${CIRCLE_PROJECT_REPONAME}
         fi
   - run:
       name: Create JSON translation files
       command: |
+        if [ "$CIRCLE_PROJECT_REPONAME" = "newspack-theme" ]; then
+          cd ./newspack-theme
+        fi
+
         sudo apt-get update && sudo apt-get install -y gettext
+
         cd languages
 
         # Create PO files from POT if they don't exist
         if [ ! -f "${CIRCLE_PROJECT_REPONAME}-en_US.po" ]; then
+          echo "Creating ${CIRCLE_PROJECT_REPONAME}-en_US.po from POT file"
           wp i18n update-po ${CIRCLE_PROJECT_REPONAME}.pot .
+        else
+          echo "${CIRCLE_PROJECT_REPONAME}-en_US.po file already exists, skipping creation"
         fi
 
-        for po in ${CIRCLE_PROJECT_REPONAME}-*.po; do
+        for po in *.po; do
           if [ -f "$po" ]; then
+            echo "Processing file $po …"
             # Update translations according to the new POT file
             msgmerge $po $CIRCLE_PROJECT_REPONAME.pot -o $po.out
             mv $po.out $po
@@ -56,10 +67,17 @@ steps:
   - run:
       name: Commit translation files
       command: |
-        LINES_CHANGED=$(git diff --numstat languages/ | awk '{sum += $1 + $2} END {print sum}')
-        # If no existing files were changed, check for new files
-        if [ -z "$LINES_CHANGED" ] || [ "$LINES_CHANGED" -eq 0 ]; then
-          LINES_CHANGED=$(git ls-files --others --exclude-standard languages/ | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}')
+        if [ "$CIRCLE_PROJECT_REPONAME" = "newspack-theme" ]; then
+          cd ./newspack-theme
+        fi
+        if [ -d "languages" ]; then
+          LINES_CHANGED=$(git diff --numstat languages/ | awk '{sum += $1 + $2} END {print sum}')
+          # If no existing files were changed, check for new files
+          if [ -z "$LINES_CHANGED" ] || [ "$LINES_CHANGED" -eq 0 ]; then
+            LINES_CHANGED=$(git ls-files --others --exclude-standard languages/ | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}')
+          fi
+        else
+          LINES_CHANGED=0
         fi
         LINES_CHANGED=${LINES_CHANGED:-0}
         echo "Lines changed in languages/: $LINES_CHANGED"
