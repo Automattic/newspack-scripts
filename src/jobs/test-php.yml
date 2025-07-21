@@ -2,7 +2,7 @@ description: >
   Run PHP tests.
 
 docker:
-  - image: cimg/php:8.0
+  - image: cimg/php:8.3
   - image: circleci/mysql:5.6.50
 
 environment:

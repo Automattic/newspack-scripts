@@ -1,7 +1,7 @@
 description: >
   Lint PHP files.
 
-executor: php-81
+executor: default
 
 steps:
   - checkout
