@@ -154,6 +154,7 @@ const run = async () => {
 		}
 	} catch ( err ) {
 		console.error( 'The automated release failed with %O', err );
+		process.exit( 1 );
 	}
 };
 
