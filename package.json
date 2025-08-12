@@ -54,7 +54,7 @@
 		"postcss-focus-within": "^5.0.4",
 		"postcss-scss": "^4.0.9",
 		"prettier": "npm:wp-prettier@^3.0.3",
-		"semantic-release": "^19.0.5",
+		"semantic-release": "^22.0.0",
 		"semantic-release-version-bump": "^1.4.1",
 		"stylelint": "^14.2.0",
 		"typescript": "^5.4.5",
