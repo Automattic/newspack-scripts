@@ -12,12 +12,6 @@ const filesList = files.split( ',' );
 
 utils.log( `Releasing ${ process.env.CIRCLE_PROJECT_REPONAME }…` );
 
-const shouldPublishOnNPM = Boolean( process.env.NPM_TOKEN );
-
-if ( shouldPublishOnNPM ) {
-	utils.log( `Will publish on npm` );
-}
-
 const getConfig = ({ gitBranchName }) => {
 	const branchType = gitBranchName.split("/")[0];
 	const githubConfig = {
@@ -33,6 +27,12 @@ const getConfig = ({ gitBranchName }) => {
 	if ( ! ["alpha", "hotfix", "release"].includes(branchType) ) {
 		githubConfig.successComment = false;
 		githubConfig.failComment = false;
+	}
+
+	// Only publish alpha and release branches to NPM.
+	const shouldPublishOnNPM = Boolean( process.env.NPM_TOKEN ) && ["alpha", "release"].includes(branchType);
+	if ( shouldPublishOnNPM ) {
+		utils.log( `Will publish to npm.` );
 	}
 
 	const config = {
