@@ -1,3 +1,10 @@
+/**
+ * DEPRECATION NOTICE: As of v5.8.0, this script is deprecated as @wordpress/eslint-plugin
+ * will perform TypeScript checks on .ts and .tsx files.
+ *
+ * This script and its dependencies will be removed in a future version of Newspack Scripts.
+ */
+
 'use strict';
 
 const spawn = require( 'cross-spawn' );
