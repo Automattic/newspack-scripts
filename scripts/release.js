@@ -129,7 +129,7 @@ const run = async () => {
 	try {
 		const gitBranch = await utils.getGitBranch();
 
-		const result = await semanticRelease(
+		const result = await semanticRelease.default(
 			getConfig( { gitBranchName: gitBranch } )
 		);
 
