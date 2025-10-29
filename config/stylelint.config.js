@@ -1,7 +1,5 @@
 module.exports = {
-	extends: [
-		'@wordpress/stylelint-config',
-	],
+	extends: [ '@wordpress/stylelint-config' ],
 	rules: {
 		'rule-empty-line-before': null,
 		'at-rule-empty-line-before': null,
@@ -29,6 +27,5 @@ module.exports = {
 			},
 		],
 		'media-feature-range-notation': null,
-		'max-line-length': null,
 	},
 };
