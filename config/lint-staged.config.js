@@ -1,4 +1,4 @@
-export default {
+module.exports = {
 	'lint-staged': {
 		'*.scss': 'npm run lint:scss:staged',
 		'*.(js|jsx)': 'npm run lint:js:staged',
