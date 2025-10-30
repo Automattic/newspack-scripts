@@ -16,8 +16,6 @@ module.exports = {
 	extends: [
 		'plugin:import/errors',
 		'plugin:import/warnings',
-		// 'plugin:@typescript-eslint/eslint-recommended',
-		// 'plugin:@typescript-eslint/recommended',
 		'plugin:@wordpress/eslint-plugin/recommended',
 		'plugin:@wordpress/eslint-plugin/react',
 	],
@@ -26,7 +24,6 @@ module.exports = {
 		jest: true,
 	},
 	parser: '@typescript-eslint/parser',
-	// plugins: [ '@typescript-eslint' ],
 	settings: {
 		'import/resolver': {
 			node: {
