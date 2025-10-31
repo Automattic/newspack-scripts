@@ -1,5 +1,6 @@
 module.exports = {
 	extends: [ '@wordpress/stylelint-config' ],
+	ignoreFiles: [ 'dist/**', 'node_modules/**', 'release/**', 'scripts/**' ],
 	rules: {
 		'rule-empty-line-before': null,
 		'at-rule-empty-line-before': null,
@@ -14,6 +15,7 @@ module.exports = {
 		'alpha-value-notation': null,
 		'color-function-notation': null,
 		'selector-not-notation': null,
+		'no-invalid-double-slash-comments': null,
 		'function-no-unknown': [
 			true,
 			{
