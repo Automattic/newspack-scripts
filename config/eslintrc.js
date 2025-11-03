@@ -1,10 +1,3 @@
-const wpRecommended = require.resolve(
-	'@wordpress/eslint-plugin/configs/recommended'
-);
-const reactRecommended = require.resolve(
-	'@wordpress/eslint-plugin/configs/react'
-);
-
 /**
  *  Assume `@wordpress/*` packages are available. This is because `@wordpress/scripts` is using
  * Dependency Extraction Webpack Plugin to use core WP packages instead of those from
@@ -23,17 +16,14 @@ module.exports = {
 	extends: [
 		'plugin:import/errors',
 		'plugin:import/warnings',
-		'plugin:@typescript-eslint/eslint-recommended',
-		'plugin:@typescript-eslint/recommended',
-		reactRecommended,
-		wpRecommended,
+		'plugin:@wordpress/eslint-plugin/recommended',
+		'plugin:@wordpress/eslint-plugin/react',
 	],
 	env: {
 		browser: true,
 		jest: true,
 	},
 	parser: '@typescript-eslint/parser',
-	plugins: [ '@typescript-eslint' ],
 	settings: {
 		'import/resolver': {
 			node: {
@@ -85,5 +75,6 @@ module.exports = {
 		'@typescript-eslint/no-shadow': 'error',
 		'@typescript-eslint/ban-ts-comment': 'warn',
 		'@typescript-eslint/no-explicit-any': 'warn',
+		'@typescript-eslint/no-require-imports': 'off',
 	},
 };

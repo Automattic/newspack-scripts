@@ -6,7 +6,7 @@ module.exports = ( ...args ) => {
 	let config = { ...defaultConfig };
 
 	// Merge config extensions into default config.
-	args.forEach( extension => {
+	args.forEach( ( extension ) => {
 		config = { ...config, ...extension };
 	} );
 
