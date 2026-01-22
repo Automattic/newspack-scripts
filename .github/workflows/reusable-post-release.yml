@@ -3,8 +3,6 @@ name: Post Release
 on:
   workflow_call:
     secrets:
-      GITHUB_TOKEN:
-        required: true
       SLACK_CHANNEL_ID:
         required: false
       SLACK_AUTH_TOKEN:
