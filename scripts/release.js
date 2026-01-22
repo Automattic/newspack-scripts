@@ -10,15 +10,18 @@ const { files, ...otherArgs } = require( 'yargs/yargs' )(
 
 const filesList = files.split( ',' );
 
-utils.log( `Releasing ${ process.env.CIRCLE_PROJECT_REPONAME }…` );
+// Get repository name from GitHub Actions environment variable (format: owner/repo).
+const repoName = process.env.GITHUB_REPOSITORY?.split( '/' )[ 1 ] || 'unknown';
+
+utils.log( `Releasing ${ repoName }…` );
 
 const getConfig = ({ gitBranchName }) => {
 	const branchType = gitBranchName.split("/")[0];
 	const githubConfig = {
 		assets: [
 			{
-				path: `./release/${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
-				label: `${process.env.CIRCLE_PROJECT_REPONAME}.zip`,
+				path: `./release/${ repoName }.zip`,
+				label: `${ repoName }.zip`,
 			},
 		],
 	};
