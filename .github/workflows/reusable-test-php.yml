@@ -26,7 +26,6 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: wordpress_test
         ports:
           - 3306:3306
         options: >-
