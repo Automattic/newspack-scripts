@@ -1,0 +1,30 @@
+name: Lint PHP
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        description: 'PHP version to use'
+        required: false
+        type: string
+        default: '8.3'
+
+jobs:
+  lint-php:
+    name: Lint PHP files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php-version }}
+          tools: composer
+
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Lint PHP files
+        run: ./vendor/bin/phpcs

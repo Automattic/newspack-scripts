@@ -1,0 +1,28 @@
+name: Lint JS & SCSS
+
+on:
+  workflow_call:
+
+jobs:
+  lint-js-scss:
+    name: Lint JS & SCSS files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Verify Node version
+        run: node --version
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run Linter
+        # Temporarily skip linting SCSS due to stylelint config updates. Remove :js when ready to re-enable linting of SCSS.
+        run: npm run lint:js

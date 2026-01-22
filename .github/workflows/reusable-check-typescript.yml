@@ -1,0 +1,27 @@
+name: Check TypeScript
+
+on:
+  workflow_call:
+
+jobs:
+  check-typescript:
+    name: Validate TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Verify Node version
+        run: node --version
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Validate TypeScript
+        run: npm run typescript:check
