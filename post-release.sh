@@ -23,13 +23,13 @@ if [[ $(echo $SECOND_TO_LAST_COMMIT_MSG | grep '^Merge .*alpha') ]]; then
   # we don't care about any alpha changes.
   git reset --hard release --
   # Force-push the alpha branch.
-  git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git" --force
+  git push "https://$GITHUB_TOKEN@github.com/${GITHUB_REPOSITORY}.git" --force
 else
   echo '[newspack-scripts] Release was created from a different branch than the alpha branch (e.g. a hotfix branch).'
   echo '[newspack-scripts] Alpha branch will now be updated with the lastest changes from release.'
   git merge --no-ff release -m "chore(release): merge in release $LATEST_VERSION_TAG"
   if [[ $? == 0 ]]; then
-    git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git"
+    git push "https://$GITHUB_TOKEN@github.com/${GITHUB_REPOSITORY}.git"
   else
     git merge --abort
     echo '[newspack-scripts] Post-release merge to alpha failed.'
@@ -55,7 +55,7 @@ git checkout trunk
 git merge --no-ff release -m "chore(release): merge in release $LATEST_VERSION_TAG"
 if [[ $? == 0 ]]; then
   echo '[newspack-scripts] Pushing updated trunk to origin.'
-  git push "https://$GITHUB_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git"
+  git push "https://$GITHUB_TOKEN@github.com/${GITHUB_REPOSITORY}.git"
 else
   git merge --abort
   echo '[newspack-scripts] Post-release merge to trunk failed.'
