@@ -34,6 +34,12 @@ jobs:
         if: steps.check-bot.outputs.skip != 'true'
         run: npm ci --legacy-peer-deps
 
+      - name: Configure PHP for deep nesting
+        if: steps.check-bot.outputs.skip != 'true'
+        run: |
+          # Increase xdebug max_nesting_level to handle deeply nested JS files
+          echo "xdebug.max_nesting_level=512" | sudo tee -a $(php -i | grep "Scan this dir for additional .ini files" | cut -d' ' -f9)/99-custom.ini
+
       - name: Install WP CLI
         if: steps.check-bot.outputs.skip != 'true'
         run: |
