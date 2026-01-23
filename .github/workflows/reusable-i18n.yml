@@ -45,6 +45,9 @@ jobs:
         if: steps.check-bot.outputs.skip != 'true'
         run: npm run build || true
 
+      - name: Set higher Xdebug stack limit
+        run: echo "xdebug.max_nesting_level=1000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
       - name: Create POT translation files
         if: steps.check-bot.outputs.skip != 'true'
         env:
