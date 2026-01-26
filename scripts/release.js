@@ -24,10 +24,7 @@ const getConfig = ({ gitBranchName }) => {
 				label: `${ repoName }.zip`,
 			},
 		],
-		// Custom label template that caps at 50 chars (GitHub's limit).
-		releasedLabels: [
-			'<%= ("released" + (nextRelease.channel ? " on @" + nextRelease.channel : "")).substring(0, 50) %>',
-		],
+		releasedLabels: false,
 	};
 
 	// Only post GH PR comments for alpha, hotfix/*, and release branches.
