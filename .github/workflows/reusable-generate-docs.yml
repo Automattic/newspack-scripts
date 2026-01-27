@@ -1,5 +1,8 @@
 name: Generate Docs
 
+permissions:
+  contents: write
+
 on:
   workflow_call:
 
