@@ -3,8 +3,6 @@ name: Release
 on:
   workflow_call:
     secrets:
-      GITHUB_REPOSITORY:
-        required: true
       NPM_TOKEN:
         required: false
 
@@ -49,7 +47,7 @@ jobs:
 
       - name: Release new version
         env:
-          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run release
