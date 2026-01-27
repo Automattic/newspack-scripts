@@ -28,11 +28,10 @@ const getConfig = ({ gitBranchName }) => {
 	};
 
 	// Only post GH PR comments for alpha, hotfix/*, and release branches.
-	// if ( ! ["alpha", "hotfix", "release"].includes(branchType) ) {
-	// Temporarily disable comments for all branches to prevent spam.
-	githubConfig.successComment = false;
-	githubConfig.failComment = false;
-	// }
+	if ( ! ["alpha", "hotfix", "release"].includes(branchType) ) {
+		githubConfig.successComment = false;
+		githubConfig.failComment = false;
+	}
 
 	// Only publish alpha and release branches to NPM.
 	const shouldPublishOnNPM = Boolean( process.env.NPM_TOKEN ) && ["alpha", "release"].includes(branchType);
