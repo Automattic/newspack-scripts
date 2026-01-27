@@ -3,6 +3,9 @@ name: i18n
 on:
   workflow_call:
 
+permissions:
+  contents: write
+
 jobs:
   i18n:
     name: Create translation files
