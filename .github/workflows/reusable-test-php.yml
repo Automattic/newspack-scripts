@@ -34,6 +34,7 @@ jobs:
           --health-timeout=5s
           --health-retries=3
     env:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       WP_TESTS_DIR: /tmp/wordpress-tests-lib
       WP_CORE_DIR: /tmp/wordpress/
     steps:
@@ -69,5 +70,3 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage.xml
           fail_ci_if_error: false
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
