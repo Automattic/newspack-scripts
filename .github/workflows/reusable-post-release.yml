@@ -32,6 +32,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GITHUB_COMMITER_EMAIL: github-actions[bot]@users.noreply.github.com
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
         run: ./node_modules/newspack-scripts/post-release.sh
