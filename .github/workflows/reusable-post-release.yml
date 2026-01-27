@@ -31,6 +31,7 @@ jobs:
       - name: Perform post-release chores
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
         run: ./node_modules/newspack-scripts/post-release.sh
