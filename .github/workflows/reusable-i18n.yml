@@ -67,7 +67,7 @@ jobs:
             wp i18n make-pot . languages/${REPO_NAME}.pot --exclude='src' --domain=${REPO_NAME}
             cd -
           else
-            wp i18n make-pot . languages/${REPO_NAME}.pot --exclude='src' --domain=${REPO_NAME}
+            wp i18n make-pot . languages/${REPO_NAME}.pot --domain=${REPO_NAME}
           fi
 
       - name: Create JSON translation files
