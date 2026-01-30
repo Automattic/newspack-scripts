@@ -1,0 +1,41 @@
+name: Post Release
+
+permissions:
+  contents: write
+
+on:
+  workflow_call:
+    secrets:
+      SLACK_CHANNEL_ID:
+        required: false
+      SLACK_AUTH_TOKEN:
+        required: false
+
+jobs:
+  post-release:
+    name: Perform post-release tasks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Perform post-release chores
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GITHUB_COMMITER_EMAIL: github-actions[bot]@users.noreply.github.com
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
+        run: ./node_modules/newspack-scripts/scripts/github/post-release.sh

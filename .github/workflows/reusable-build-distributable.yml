@@ -1,0 +1,50 @@
+name: Build Distributable
+
+on:
+  workflow_call:
+    inputs:
+      archive-name:
+        description: 'Name of the ZIP archive distributable'
+        required: true
+        type: string
+
+jobs:
+  build-distributable:
+    name: Build distributable files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Verify Node version
+        run: node --version
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install rsync
+        run: sudo apt-get update && sudo apt-get install -y rsync
+
+      - name: Install PHP packages
+        run: composer install --no-dev --no-scripts
+
+      - name: Build plugin files
+        run: npm run build && npm run release:archive
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.archive-name }}
+          path: release/${{ inputs.archive-name }}.zip

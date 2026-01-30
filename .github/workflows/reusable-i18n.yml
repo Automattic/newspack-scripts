@@ -1,0 +1,136 @@
+name: i18n
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+
+jobs:
+  i18n:
+    name: Create translation files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Check if commit author is bot
+        id: check-bot
+        env:
+          GIT_COMMITTER_EMAIL: ${{ vars.GIT_COMMITTER_EMAIL || 'github-actions[bot]@users.noreply.github.com' }}
+        run: |
+          COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
+          if [ "$COMMIT_AUTHOR" = "$GIT_COMMITTER_EMAIL" ]; then
+            echo "Commit was made by bot ($(git rev-parse --short HEAD)), skipping translation update"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install dependencies
+        if: steps.check-bot.outputs.skip != 'true'
+        run: npm ci --legacy-peer-deps
+
+      - name: Configure PHP for deep nesting
+        if: steps.check-bot.outputs.skip != 'true'
+        run: |
+          # Increase xdebug max_nesting_level to handle deeply nested JS files
+          echo "xdebug.max_nesting_level=512" | sudo tee -a $(php -i | grep "Scan this dir for additional .ini files" | cut -d' ' -f9)/99-custom.ini
+
+      - name: Install WP CLI
+        if: steps.check-bot.outputs.skip != 'true'
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Build plugin files
+        if: steps.check-bot.outputs.skip != 'true'
+        run: npm run build || true
+
+      - name: Create POT translation files
+        if: steps.check-bot.outputs.skip != 'true'
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: |
+          # Theme is excluded, more in https://github.com/Automattic/newspack-theme/pull/2458
+          if [ "$REPO_NAME" = "newspack-theme" ]; then
+            cd ./newspack-theme
+            wp i18n make-pot . languages/${REPO_NAME}.pot --exclude='src' --domain=${REPO_NAME}
+            cd -
+          else
+            wp i18n make-pot . languages/${REPO_NAME}.pot --domain=${REPO_NAME}
+          fi
+
+      - name: Create JSON translation files
+        if: steps.check-bot.outputs.skip != 'true'
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: |
+          if [ "$REPO_NAME" = "newspack-theme" ]; then
+            cd ./newspack-theme
+          fi
+
+          sudo apt-get update && sudo apt-get install -y gettext
+
+          cd languages
+
+          # Create PO files from POT if they don't exist
+          if [ ! -f "${REPO_NAME}-en_US.po" ]; then
+            echo "Creating ${REPO_NAME}-en_US.po from POT file"
+            wp i18n update-po ${REPO_NAME}.pot .
+          else
+            echo "${REPO_NAME}-en_US.po file already exists, skipping creation"
+          fi
+
+          for po in *.po; do
+            if [ -f "$po" ]; then
+              echo "Processing file $po …"
+              # Update translations according to the new POT file
+              msgmerge $po $REPO_NAME.pot -o $po.out
+              mv $po.out $po
+              msgfmt $po -o $(basename $po .po).mo
+              # no-purge since we need the JS translations for the next run
+              wp i18n make-json --no-purge $po .
+            fi
+          done
+
+      - name: Commit translation files
+        if: steps.check-bot.outputs.skip != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          GIT_COMMITTER_NAME: ${{ vars.GIT_COMMITTER_NAME || 'github-actions[bot]' }}
+          GIT_COMMITTER_EMAIL: ${{ vars.GIT_COMMITTER_EMAIL || 'github-actions[bot]@users.noreply.github.com' }}
+        run: |
+          if [ "$REPO_NAME" = "newspack-theme" ]; then
+            cd ./newspack-theme
+          fi
+          if [ -d "languages" ]; then
+            LINES_CHANGED=$(git diff --numstat languages/ | awk '{sum += $1 + $2} END {print sum}')
+            # If no existing files were changed, check for new files
+            if [ -z "$LINES_CHANGED" ] || [ "$LINES_CHANGED" -eq 0 ]; then
+              LINES_CHANGED=$(git ls-files --others --exclude-standard languages/ | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}')
+            fi
+          else
+            LINES_CHANGED=0
+          fi
+          LINES_CHANGED=${LINES_CHANGED:-0}
+          echo "Lines changed in languages/: $LINES_CHANGED"
+          if [ "$LINES_CHANGED" -gt 3 ]; then
+            git config user.email "$GIT_COMMITTER_EMAIL"
+            git config user.name "$GIT_COMMITTER_NAME"
+            git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/${{ github.repository }}.git
+            git add languages/
+            git commit -m "chore: update translation files [skip ci]"
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin ${{ github.ref_name }}
+          fi

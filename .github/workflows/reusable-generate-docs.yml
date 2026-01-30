@@ -1,0 +1,39 @@
+name: Generate Docs
+
+permissions:
+  contents: write
+
+on:
+  workflow_call:
+
+jobs:
+  generate-docs:
+    name: Generate documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y graphviz plantuml
+
+      - name: Download PHPDocumentor
+        run: |
+          curl -L -o ./phpdocumentor https://phpdoc.org/phpDocumentor.phar
+          chmod +x ./phpdocumentor
+
+      - name: Generate documentation
+        run: ./phpdocumentor run -d . -t ./docs
+
+      - name: Switch to docs branch, commit, and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_COMMITTER_NAME: ${{ vars.GIT_COMMITTER_NAME || 'github-actions[bot]' }}
+          GIT_COMMITTER_EMAIL: ${{ vars.GIT_COMMITTER_EMAIL || 'github-actions[bot]@users.noreply.github.com' }}
+        run: |
+          git config user.name "$GIT_COMMITTER_NAME"
+          git config user.email "$GIT_COMMITTER_EMAIL"
+          git checkout -b docs
+          git add -f docs
+          git commit -m "Update the docs"
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" docs --force

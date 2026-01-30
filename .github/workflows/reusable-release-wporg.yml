@@ -1,0 +1,58 @@
+# Release to WordPress.org.
+# Requires the calling workflow to run reusable-release.yml first (which uploads release artifacts).
+name: Release to WordPress.org
+
+on:
+  workflow_call:
+    inputs:
+      plugin-name:
+        description: 'WordPress.org plugin slug. Defaults to the repository name.'
+        required: false
+        type: string
+        default: ''
+    secrets:
+      WP_ORG_USERNAME:
+        required: true
+      WP_ORG_PASSWORD:
+        required: true
+
+jobs:
+  release-wporg:
+    name: Release to WordPress.org
+    runs-on: ubuntu-latest
+    env:
+      PLUGIN_NAME: ${{ inputs.plugin-name || github.event.repository.name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: release/
+
+      - name: Verify release artifacts
+        run: |
+          if [ ! -d "release/$PLUGIN_NAME" ]; then
+            echo "::error::release/$PLUGIN_NAME not found. The release job must produce this directory via release:archive."
+            exit 1
+          fi
+
+      - name: Release to WordPress.org
+        env:
+          WP_ORG_USERNAME: ${{ secrets.WP_ORG_USERNAME }}
+          WP_ORG_PASSWORD: ${{ secrets.WP_ORG_PASSWORD }}
+          WP_ORG_PLUGIN_NAME: ${{ env.PLUGIN_NAME }}
+        run: ./node_modules/newspack-scripts/scripts/github/release-wporg.sh
