@@ -1,9 +1,32 @@
 #!/usr/bin/env node
 
+const fs = require( 'fs' );
+const path = require( 'path' );
 const spawn = require( 'cross-spawn' );
 const utils = require( '../scripts/utils/index.js' );
 
 const [ scriptName, ...nodeArgs ] = process.argv.slice( 2 );
+
+/**
+ * Resolve script path. If running in GitHub Actions, try to find the script
+ * in `scripts/github/` first, otherwise fall back to `scripts/`.
+ *
+ * @param {string} name Script name.
+ * @return {string} Resolved script path.
+ */
+const resolveScript = ( name ) => {
+	if ( process.env.GITHUB_ACTIONS ) {
+		const githubScriptPath = path.resolve(
+			__dirname,
+			'../scripts/github/',
+			name + '.js'
+		);
+		if ( fs.existsSync( githubScriptPath ) ) {
+			return githubScriptPath;
+		}
+	}
+	return require.resolve( '../scripts/' + name );
+};
 
 if (
 	[
@@ -18,7 +41,7 @@ if (
 ) {
 	const result = spawn.sync(
 		process.execPath,
-		[ require.resolve( '../scripts/' + scriptName ), ...nodeArgs ],
+		[ resolveScript( scriptName ), ...nodeArgs ],
 		{ stdio: 'inherit' }
 	);
 	if ( result.signal ) {
