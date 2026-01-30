@@ -55,4 +55,4 @@ jobs:
           WP_ORG_USERNAME: ${{ secrets.WP_ORG_USERNAME }}
           WP_ORG_PASSWORD: ${{ secrets.WP_ORG_PASSWORD }}
           WP_ORG_PLUGIN_NAME: ${{ env.PLUGIN_NAME }}
-        run: ./node_modules/newspack-scripts/release-wporg.sh
+        run: ./node_modules/newspack-scripts/scripts/github/release-wporg.sh

@@ -9,7 +9,6 @@
 
 SVN_PLUGINS_URL="https://plugins.svn.wordpress.org"
 SVN_REPO_LOCAL_PATH="release/svn"
-WP_ORG_PLUGIN_NAME="${WP_ORG_PLUGIN_NAME:=$CIRCLE_PROJECT_REPONAME}"
 SVN_REPO_URL="$SVN_PLUGINS_URL/$WP_ORG_PLUGIN_NAME"
 
 LATEST_GIT_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
@@ -36,7 +35,7 @@ svn checkout -q "$SVN_REPO_URL" .
 
 rm -rf trunk
 
-cp -r "../$CIRCLE_PROJECT_REPONAME" ./trunk
+cp -r "../$WP_ORG_PLUGIN_NAME" ./trunk
 cp -r ./trunk "./tags/$LATEST_SVN_TAG"
 
 # Add new files to SVN

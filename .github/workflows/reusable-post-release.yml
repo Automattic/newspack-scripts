@@ -38,4 +38,4 @@ jobs:
           GITHUB_COMMITER_EMAIL: github-actions[bot]@users.noreply.github.com
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
-        run: ./node_modules/newspack-scripts/post-release.sh
+        run: ./node_modules/newspack-scripts/scripts/github/post-release.sh
