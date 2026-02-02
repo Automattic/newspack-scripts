@@ -32,10 +32,10 @@ jobs:
 
       - name: Perform post-release chores
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_COMMITTER_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          GIT_COMMITTER_NAME: github-actions[bot]
-          GITHUB_COMMITER_EMAIL: github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: ${{ vars.GIT_COMMITTER_NAME || 'github-actions[bot]' }}
+          GITHUB_COMMITER_EMAIL: ${{ vars.GIT_COMMITTER_EMAIL || 'github-actions[bot]@users.noreply.github.com' }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
         run: ./node_modules/newspack-scripts/scripts/github/post-release.sh
