@@ -2,9 +2,6 @@
 
 # This script should be ran on CI after a new regular (not pre-release) version is released.
 
-git config user.name "$GIT_COMMITTER_NAME"
-git config user.email "$GITHUB_COMMITER_EMAIL"
-
 # The last commit message at this point is the automated release commit. The second-to-last
 # commit message should contain data about the merge.
 SECOND_TO_LAST_COMMIT_MSG=$(git log -n 1 --skip 1 --pretty=format:"%s")
@@ -23,13 +20,13 @@ if [[ $(echo $SECOND_TO_LAST_COMMIT_MSG | grep '^Merge .*alpha') ]]; then
   # we don't care about any alpha changes.
   git reset --hard release --
   # Force-push the alpha branch.
-  git push "https://$GITHUB_TOKEN@github.com/${GITHUB_REPOSITORY}.git" --force
+  git push --force
 else
   echo '[newspack-scripts] Release was created from a different branch than the alpha branch (e.g. a hotfix branch).'
   echo '[newspack-scripts] Alpha branch will now be updated with the lastest changes from release.'
   git merge --no-ff release -m "chore(release): merge in release $LATEST_VERSION_TAG"
   if [[ $? == 0 ]]; then
-    git push "https://$GITHUB_TOKEN@github.com/${GITHUB_REPOSITORY}.git"
+    git push
   else
     git merge --abort
     echo '[newspack-scripts] Post-release merge to alpha failed.'
@@ -55,7 +52,7 @@ git checkout trunk
 git merge --no-ff release -m "chore(release): merge in release $LATEST_VERSION_TAG"
 if [[ $? == 0 ]]; then
   echo '[newspack-scripts] Pushing updated trunk to origin.'
-  git push "https://$GITHUB_TOKEN@github.com/${GITHUB_REPOSITORY}.git"
+  git push
 else
   git merge --abort
   echo '[newspack-scripts] Post-release merge to trunk failed.'
