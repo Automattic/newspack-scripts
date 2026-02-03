@@ -128,7 +128,7 @@ jobs:
           if [ "$LINES_CHANGED" -gt 3 ]; then
             git config user.email "$GIT_COMMITTER_EMAIL"
             git config user.name "$GIT_COMMITTER_NAME"
-            git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/${{ github.repository }}.git
+            git remote set-url origin https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git
             git add languages/
             git commit -m "chore: update translation files [skip ci]"
             git pull --rebase origin ${{ github.ref_name }}
