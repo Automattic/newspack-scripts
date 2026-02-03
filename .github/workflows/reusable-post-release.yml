@@ -25,6 +25,9 @@ jobs:
           token: ${{ secrets.GIT_COMMITTER_TOKEN }}
 
       - name: Configure Git
+        env:
+          GIT_COMMITTER_NAME: ${{ vars.GIT_COMMITTER_NAME || 'github-actions[bot]' }}
+          GIT_COMMITTER_EMAIL: ${{ vars.GIT_COMMITTER_EMAIL || 'github-actions[bot]@users.noreply.github.com' }}
         run: |
           git config user.name "$GIT_COMMITTER_NAME"
           git config user.email "$GIT_COMMITTER_EMAIL"
