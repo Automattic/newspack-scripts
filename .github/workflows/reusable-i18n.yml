@@ -132,5 +132,5 @@ jobs:
             git add languages/
             git commit -m "chore: update translation files [skip ci]"
             git pull --rebase origin ${{ github.ref_name }}
-            git push origin ${{ github.ref_name }}
+            git push origin ${{ github.ref_name }} --no-verify
           fi
