@@ -2,6 +2,9 @@ name: i18n
 
 on:
   workflow_call:
+    secrets:
+      GIT_COMMITTER_TOKEN:
+        required: true
 
 permissions:
   contents: write
