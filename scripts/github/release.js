@@ -1,6 +1,6 @@
 'use strict';
 
-const utils = require( './utils/index.js' );
+const utils = require( '../utils/index.js' );
 
 const semanticRelease = require( 'semantic-release' );
 
