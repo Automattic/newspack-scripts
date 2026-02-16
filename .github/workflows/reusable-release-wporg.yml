@@ -38,7 +38,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Build release artifacts
-        run: npm run release:archive
+        run: npm run build && npm run release:archive
 
       - name: Verify release artifacts
         run: |
