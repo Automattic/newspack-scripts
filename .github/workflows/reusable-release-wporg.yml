@@ -34,6 +34,15 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
+      - name: Verify Node version
+        run: node --version
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
       - name: Install PHP packages
         run: composer install --no-dev --no-scripts
 
