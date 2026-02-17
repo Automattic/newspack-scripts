@@ -32,7 +32,7 @@ jobs:
           tools: composer
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       - name: Install rsync
         run: sudo apt-get update && sudo apt-get install -y rsync

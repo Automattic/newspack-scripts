@@ -34,8 +34,11 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+      - name: Install PHP packages
+        run: composer install --no-dev --no-scripts
+
+      - name: Install NPM dependencies
+        run: npm ci
 
       - name: Build release artifacts
         run: npm run build && npm run release:archive
