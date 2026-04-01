@@ -35,7 +35,7 @@ else
     else
       echo '[newspack-scripts] Notifying the team on Slack.'
       curl \
-        --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ Post-release merge to alpha failed for: \`$CIRCLE_PROJECT_REPONAME\`. Check <$CIRCLE_BUILD_URL|the build> for details.\"}}]}" \
+        --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ Post-release merge to alpha failed for: \`$GITHUB_REPOSITORY\`. Check <$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|the build> for details.\"}}]}" \
         -H "Content-type: application/json" \
         -H "Authorization: Bearer $SLACK_AUTH_TOKEN" \
         -X POST https://slack.com/api/chat.postMessage \
@@ -61,7 +61,7 @@ else
   else
     echo '[newspack-scripts] Notifying the team on Slack.'
     curl \
-      --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ Post-release merge to \`trunk\` failed for: \`$CIRCLE_PROJECT_REPONAME\`. Check <$CIRCLE_BUILD_URL|the build> for details.\"}}]}" \
+      --data "{\"channel\":\"$SLACK_CHANNEL_ID\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"⚠️ Post-release merge to \`trunk\` failed for: \`$GITHUB_REPOSITORY\`. Check <$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID|the build> for details.\"}}]}" \
       -H "Content-type: application/json" \
       -H "Authorization: Bearer $SLACK_AUTH_TOKEN" \
       -X POST https://slack.com/api/chat.postMessage \
