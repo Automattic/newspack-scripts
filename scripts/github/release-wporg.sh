@@ -11,7 +11,7 @@ SVN_PLUGINS_URL="https://plugins.svn.wordpress.org"
 SVN_REPO_LOCAL_PATH="release/svn"
 SVN_REPO_URL="$SVN_PLUGINS_URL/$WP_ORG_PLUGIN_NAME"
 
-LATEST_GIT_TAG=$(git tag --list 'v*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -1)
+LATEST_GIT_TAG=$(git tag --list 'v*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
 if [ -z "$LATEST_GIT_TAG" ]; then
   echo "No stable version tag found. Aborting deployment."
   exit 1
