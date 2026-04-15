@@ -1,0 +1,25 @@
+'use strict';
+
+const fs = require( 'fs' );
+const path = require( 'path' );
+
+const repoName = process.env.GITHUB_REPOSITORY?.split( '/' )[ 1 ];
+const releaseAssetPath = path.resolve( `./release/${ repoName }.zip` );
+
+async function prepare() {
+	if ( ! repoName ) {
+		throw new Error(
+			'GITHUB_REPOSITORY is not set; cannot determine release asset path.'
+		);
+	}
+	if ( ! fs.existsSync( releaseAssetPath ) ) {
+		throw new Error(
+			`Release asset not found at ${ releaseAssetPath }. ` +
+				'The `release:archive` script must produce this file before ' +
+				'semantic-release publishes the GitHub release.'
+		);
+	}
+	console.log( `[verify-release-asset] OK: ${ releaseAssetPath }` );
+}
+
+module.exports = { prepare };
