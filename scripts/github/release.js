@@ -19,7 +19,15 @@ if ( ! process.env.GITHUB_REPOSITORY ) {
 	process.exit( 1 );
 }
 
-const repoName = process.env.GITHUB_REPOSITORY.split( '/' )[ 1 ];
+const [ repoOwner, repoName ] = process.env.GITHUB_REPOSITORY.split( '/' );
+if ( ! repoOwner || ! repoName ) {
+	console.error(
+		`GITHUB_REPOSITORY must be in "owner/repo" format; received "${ process.env.GITHUB_REPOSITORY }". ` +
+			'Aborting before semantic-release publishes a release with an invalid asset path.'
+	);
+	process.exit( 1 );
+}
+
 const releaseAssetPath = `./release/${ repoName }.zip`;
 
 utils.log( `Releasing ${ repoName }…` );
