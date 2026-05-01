@@ -5,7 +5,7 @@ on:
 name: Dependabot auto-merge
 jobs:
   auto-merge:
-    name: Auto-merge dependabot PRs for minor and patch updates
+    name: Auto-merge dependabot PRs for patch updates
     runs-on: ubuntu-latest
     if: |
       contains( github.event.pull_request.labels.*.name, 'dependencies' )
@@ -14,5 +14,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
-          target: minor # includes patch updates.
+          # Limited to `patch` because grouped Dependabot PRs (see dependabot.yml)
+          # can bundle many minor updates at once — broader auto-merge would
+          # increase blast radius. Minor updates require manual review.
+          target: patch
           github-token: ${{ secrets.DEPENDABOT_TOKEN }}
