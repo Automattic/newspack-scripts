@@ -11,7 +11,7 @@ jobs:
       contains( github.event.pull_request.labels.*.name, 'dependencies' )
       && ! contains( github.event.pull_request.labels.*.name, '[Status] Approved' )
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
           # Limited to `patch` because grouped Dependabot PRs (see dependabot.yml)
