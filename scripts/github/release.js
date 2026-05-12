@@ -10,8 +10,25 @@ const { files, ...otherArgs } = require( 'yargs/yargs' )(
 
 const filesList = files.split( ',' );
 
-// Get repository name from GitHub Actions environment variable (format: owner/repo).
-const repoName = process.env.GITHUB_REPOSITORY?.split( '/' )[ 1 ] || 'unknown';
+if ( ! process.env.GITHUB_REPOSITORY ) {
+	console.error(
+		'GITHUB_REPOSITORY is not set. This script must run inside GitHub Actions ' +
+			'so the release asset path can be resolved. Aborting before semantic-release ' +
+			'publishes a release without an attached ZIP.'
+	);
+	process.exit( 1 );
+}
+
+const [ repoOwner, repoName ] = process.env.GITHUB_REPOSITORY.split( '/' );
+if ( ! repoOwner || ! repoName ) {
+	console.error(
+		`GITHUB_REPOSITORY must be in "owner/repo" format; received "${ process.env.GITHUB_REPOSITORY }". ` +
+			'Aborting before semantic-release publishes a release with an invalid asset path.'
+	);
+	process.exit( 1 );
+}
+
+const releaseAssetPath = `./release/${ repoName }.zip`;
 
 utils.log( `Releasing ${ repoName }…` );
 
@@ -20,7 +37,7 @@ const getConfig = ({ gitBranchName }) => {
 	const githubConfig = {
 		assets: [
 			{
-				path: `./release/${ repoName }.zip`,
+				path: releaseAssetPath,
 				label: `${ repoName }.zip`,
 			},
 		],
@@ -96,6 +113,11 @@ const getConfig = ({ gitBranchName }) => {
 			callback: 'npm run release:archive',
 		},
 	] );
+
+	// Verify the release archive exists on disk after `release:archive` ran.
+	// `@semantic-release/github` silently ignores missing assets, so without this
+	// guard a misconfigured archive step would publish a release with no ZIP.
+	config.prepare.push( require.resolve( './verify-release-asset.js' ) );
 
 	// Unless on a hotfix or epic branch, add a commit that updates the files.
 	if ( [ 'hotfix', 'epic' ].indexOf( branchType ) === -1 ) {
