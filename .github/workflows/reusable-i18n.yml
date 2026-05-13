@@ -134,6 +134,13 @@ jobs:
           echo "Lines changed in languages/: $LINES_CHANGED"
           if [ "$LINES_CHANGED" -gt 3 ]; then
             git add languages/
-            git commit -m "chore: update translation files [skip ci]"
+            # No [skip ci] marker: the committer-email check above prevents
+            # this workflow from running on its own commits, and consumer
+            # repos should path-filter their other push-triggered workflows
+            # (paths-ignore: languages/**) to avoid wasting CI on
+            # translation-only updates. The marker was previously leaking
+            # into release-merge commit bodies via GitHub's auto-populated
+            # bullet list and silently killing the Release workflow.
+            git commit -m "chore: update translation files"
             git push
           fi
